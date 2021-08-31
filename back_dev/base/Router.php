@@ -1,15 +1,23 @@
 <?php
 class Router{
-    function Route($method,$service,$action){
+    private $account ;
+    public function Route($method,$service,$action){
+        $this->account = new AccountController();
         if($service=='account'){
             $this->Account($method,$action);
+        }
+        else if($service == 'article'){
+            $this->Article($method,$action);
+        }
+        else if($service == 'payment'){
+            $this->Record($method,$action);
         }
         else{
             Output::NotFound();
         }
     }
-    function Account($method,$action){
-        $account = new AccountController();
+    private function Account($method,$action){
+        $account = $this->account  ;
         if($method=='POST'){
             switch ($action) {
                 case 'regist':
@@ -24,6 +32,9 @@ class Router{
                 case 'SendVerifyCode':
                     $account->SendVerifyCode();
                     break;
+                case 'verifyEmail':
+                    $account->verifyEmail();
+                    break;
                 default:
                     Output::NotFound();
                     break;
@@ -32,10 +43,8 @@ class Router{
         else if($method=='GET'){
             switch ($action) {
                 case 'info':
+                    $account->isLogin();
                     $account->getInfo();
-                    break;
-                case 'emailVerify':
-                    $account->verifyEmail();
                     break;
                 default:
                     Output::NotFound();
@@ -45,6 +54,7 @@ class Router{
         else if($method=='PATCH'){
             switch ($action) {
                 case '':
+                    $account->isLogin();
                     $account->updateInfo();
                     break;
                 default:
@@ -56,4 +66,78 @@ class Router{
             Output::NotFound();
         }
     }
+    private function Article($method,$action){
+        $article = new ArticleController();
+        $this->account->isLogin();
+        if($method=='POST'){
+            switch ($action) {
+                case '':
+                    $article->addArticle();
+                    break;
+                default:
+                    Output::NotFound();
+                    break;
+            }
+        }
+        else if($method=='GET'){
+            switch ($action) {
+                case '':
+                    $article->getArticles();
+                    break;
+                default:
+                    Output::NotFound();
+                    break;
+            }
+        }
+        else if($method=='PATCH'){
+            switch ($action) {
+                case 'aid':
+                    $article->SetArticle(Input::getPerms(2));
+                    break;
+                default:
+                    Output::NotFound();
+                    break;
+            }
+        }
+        else{
+            Output::NotFound();
+        }
+    }
+    private function Record($method,$action){
+        $record = new PaymenyController();
+        $this->account->isLogin();
+        if($method == 'POST'){
+            switch ($action) {
+                case 'payAll':
+                    $record->PayAll();
+                    break;
+                case 'getMPGRecord':
+                    $record->getMPGRecord(Input::getPerms(2));
+                    break;
+                case 'payNotify':
+                    $record->payNotify();
+                    break;
+                default:
+                    Output::NotFound();
+                    break;
+            }
+        }   
+        else if($method=='GET'){
+            switch ($action) {
+                case 'record':
+                    if(Input::getPerms(2)!=null)
+                        $record->GetpayAmt(Input::getPerms(2));
+                    else
+                        $record->getPayRecord();
+                    break;
+                default:
+                    Output::NotFound();
+                    break;
+            }
+        }
+        else{
+            Output::NotFound();
+        }
+    }
 }
+

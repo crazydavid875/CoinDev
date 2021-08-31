@@ -9,8 +9,7 @@ class Input{
         Input::$method = $_SERVER['REQUEST_METHOD'];
         Input::$uri = explode("back/",$_SERVER['REQUEST_URI'])[1];
         Input::$perms = explode("/",Input::$uri);
-        echo Input::$uri;
-        print_r(Input::$perms);
+        session_start();
     }
     public static function getFullURI(){
         return Input::$fulluri;
@@ -32,5 +31,11 @@ class Input{
     }
     public static function getMethod(){
         return Input::$method;
+    }
+    public static function setSession($key,$val){
+        $_SESSION[$key] = $val;
+    }
+    public static function getSession($key){
+        return $_SESSION[$key];
     }
 }

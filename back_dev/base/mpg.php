@@ -4,7 +4,7 @@ class Mpg{
     static private $mer_iv ='CwDIMI2Q4yZuRBxP'; //'PMmpEqHeomOCe7JC';
     static private $MerchantID = 'MS122480020';//'MS3515109187';
     
-    static function mpg_encrypt($member,$orderId,$ItemName,$amt,$paytype){
+    static function mpg_encrypt($email,$orderId,$ItemName,$amt,$paytype){
         $MerchantID = MPG::$MerchantID;
         
         $trade_info_arr = array(
@@ -15,7 +15,7 @@ class Mpg{
             'MerchantOrderNo' => $orderId,
             'Amt' => $amt,
             'ItemDesc' => $ItemName,
-            'Email' => $member->getEmail(),
+            'Email' => $email,
             'ReturnURL'=>'https://140.124.181.72/front',
             'ClientBackURL'=>'https://140.124.181.72/front',
             'NotifyURL'=>'https://140.124.181.72/back/payment/payNotify',

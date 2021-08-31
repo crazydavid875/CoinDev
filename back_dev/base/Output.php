@@ -18,9 +18,9 @@
             echo $val;
             exit();
         }
-        public static function NotFound(){
+        public static function NotFound($obj='request'){
             http_response_code(404);
-            echo $obj.'request not found';
+            echo $obj.' not found';
             exit();
         }
     }

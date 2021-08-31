@@ -19,6 +19,7 @@ class SQL{
     }
     public static function Select($query){
         $mysql = SQL::$mysql;
+        //echo $query;
         $result = $mysql->query($query);
         if(!$result){
             SQL::$msg = $mysql->error;
@@ -68,6 +69,7 @@ class SQL{
     }
     public static function Delete($query){
         $mysql = SQL::$mysql;
+        $query;
         $result = $mysql->query($query);
         if(!$result){
             SQL::$msg = $mysql->error;
