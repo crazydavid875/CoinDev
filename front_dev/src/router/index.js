@@ -9,6 +9,9 @@ import Payment from '../views/Payment.vue'
 import MemberPage from '../views/MemberPage.vue'
 import Admin from '../views/Admin.vue'
 import articleList from '../components/adminArticleList.vue'
+import profile from '../components/Profile.vue'
+import article from '../components/Article.vue'
+import payrecord from '../components/PayRecord.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -20,7 +23,21 @@ const routes = [
   {
     path: '/MemberPage',
     name: 'MemberPage',
-    component: MemberPage
+    component: MemberPage,
+    children: [
+      {
+        path: 'profile',
+        component: profile
+      },
+      {
+        path: 'article',
+        component: article
+      },
+      {
+        path: 'payrecord',
+        component: payrecord
+      }
+    ]
   },
   {
     path: '/Admin',

@@ -20,7 +20,7 @@
               href="#list-messages"
               role="tab"
               aria-controls="list-messages"
-              >Papers</a
+              >Paper(s)</a
             >
             <a
               class="list-group-item list-group-item-action"
@@ -29,7 +29,7 @@
               href="#list-settings"
               role="tab"
               aria-controls="list-settings"
-              >PaymentRecords</a
+              >Payment Record</a
             >
           </div>
         </div>
@@ -61,6 +61,16 @@
             </div>
           </div>
         </div>
+        <router-link to="/MemberPage/profile">Profile</router-link>
+        <br>
+        <router-link to="/MemberPage/article">Paper(s)</router-link>
+        <br>
+        <router-link to="/MemberPage/payrecord">Payment Record</router-link>
+        <transition>
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </transition>
       </div>
     </div>
   </div>

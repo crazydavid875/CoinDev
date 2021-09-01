@@ -7,18 +7,29 @@
             Profile
           </h3>
         </div>
-        <div class="col">
-          <button
-            type="button"
-            class="btn btn-outline-light"
-            @click="onChangeMode()"
-          >
-            {{ changeText }}
+        <div class="col" v-if="alerttext !== 'Please complete your Profile'">
+          <button type="button" class="btn btn-primary" @click="onChangeMode()">
+            Edit
           </button>
         </div>
       </div>
-      <div :class="'alert ' + (alerttext=='Success'?' alert-success':' alert-danger')" role="alert">
-        {{alerttext }}
+      <div
+        :class="
+          'alert ' +
+            (alerttext == 'Success' ? ' alert-success' : ' alert-danger')
+        "
+        role="alert"
+      >
+        {{ alerttext }}
+
+        <button
+          v-if="alerttext == 'Please complete your Profile'"
+          type="button"
+          class="btn btn-primary"
+          @click="onChangeMode()"
+        >
+          Edit
+        </button>
       </div>
       <div class="row mb-3">
         <label for="E-mail" class="col-sm-2 col-form-label">
@@ -304,6 +315,14 @@
           />
         </div>
       </div>
+      <button
+        v-if="changeMode"
+        type="button"
+        class="btn btn-primary"
+        @click="onSave()"
+      >
+        Save
+      </button>
     </div>
   </div>
 </template>
@@ -371,8 +390,7 @@ export default {
         })
     },
     onChangeMode () {
-      if (this.changeMode) this.onSave()
-      this.changeMode = !this.changeMode
+      this.changeMode = true
     },
     onSave () {
       if (!this.isStudent) this.studentid = ''

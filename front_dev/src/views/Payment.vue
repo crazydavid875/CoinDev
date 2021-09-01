@@ -18,7 +18,7 @@
       </div>
       <div class="row mb-3">
         <label for="inputReceipt" class="col-sm-2 col-form-label"
-          >Receipt (Invoice) Title (Not Necessary)
+          >Receipt (Invoice) Title <br/> (Option)
         </label>
         <div class="col-sm-10">
           <input
@@ -29,17 +29,7 @@
           />
         </div>
       </div>
-      <div class="row mb-3">
-        <label for="inputmethods" class="col-sm-2 col-form-label"
-          >Payment methods</label
-        >
-        <div class="col-sm-10">
-          <select class="form-select" id="inputmethods" v-model="paytype">
-            <option value="CREDIT" selected>Credit</option>
-            <option value="CVS">Others</option>
-          </select>
-        </div>
-      </div>
+
       <form
         id="newebpay"
         name="Newebpay"

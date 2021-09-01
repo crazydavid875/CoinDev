@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>
-      Paper
+      Paper(s)
     </h3>
 
     <table class="table  table-light table-striped table-hover">
@@ -9,8 +9,8 @@
         <tr>
           <td>#</td>
           <td>Title</td>
-          <td>Auther</td>
-          <td>PaperID</td>
+          <td>Author(s)</td>
+          <td>Paper ID</td>
           <td>Pages</td>
           <td></td>
         </tr>
@@ -26,13 +26,37 @@
         </tr>
         <tr>
           <td></td>
-          <td><input class="form-control" type="text" v-model="newTitle" /></td>
-          <td><input class="form-control" type="text" v-model="newAuth" /></td>
           <td>
-            <input class="form-control" type="text" v-model="newpaperid" />
+            <input
+              class="form-control"
+              type="text"
+              v-model="newTitle"
+              placeholder="Title"
+            />
           </td>
           <td>
-            <input class="form-control" type="text" v-model="newpagecount" />
+            <input
+              class="form-control"
+              type="text"
+              v-model="newAuth"
+              placeholder="xx,xxx-xxx"
+            />
+          </td>
+          <td>
+            <input
+              class="form-control"
+              type="text"
+              v-model="newpaperid"
+              placeholder="ex : 1570740455"
+            />
+          </td>
+          <td>
+            <input
+              class="form-control"
+              type="text"
+              v-model="newpagecount"
+              placeholder="Pages"
+            />
           </td>
           <td>
             <button
@@ -71,6 +95,7 @@ export default {
         if (error.response.status === 400) {
           console.log(error.response.log)
         }
+
         // error.response.status Check status code
       })
       .finally(() => {
@@ -79,6 +104,15 @@ export default {
   },
   methods: {
     newArticle () {
+      if (
+        this.newTitle === '' ||
+        this.newAuth === '' ||
+        this.newpaperid === '' ||
+        this.newpagecount === ''
+      ) {
+        alert('Please complete all columns')
+        return
+      }
       this.datas.push({
         title: this.newTitle,
         auth: this.newAuth,

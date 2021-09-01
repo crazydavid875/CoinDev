@@ -1,16 +1,16 @@
 <template>
   <div>
     <h3>
-      PaymentRecords
+      Payment Record
     </h3>
     <table class="table  table-light  table-striped ">
       <thead>
         <tr>
           <td>#</td>
-          <td>Descript</td>
-          <td>createtime</td>
-          <td>state</td>
-          <td>total</td>
+          <td>Action</td>
+          <td>CreateTime</td>
+          <td>Payment</td>
+          <td>Total</td>
           <td></td>
         </tr>
       </thead>
@@ -19,7 +19,7 @@
           <td>{{ index + 1 }}</td>
           <td>{{ item.des }}</td>
           <td>{{ item.createtimestr }}</td>
-          <td>{{ item.paytime == null ? 'outstanding' : 'paid' }}</td>
+          <td>{{ item.paytime == null ? 'unpay' : 'paid' }}</td>
           <td>{{ item.total }} NTD</td>
           <td>
             <button
@@ -28,7 +28,7 @@
               type="submit"
               @click="goPay(item.id)"
             >
-              go to pay
+              Go to pay
             </button>
           </td>
         </tr>
@@ -40,7 +40,7 @@
       class="btn  btn-outline-light"
       type="submit"
     >
-      pay all
+      Pay
     </button>
   </div>
 </template>

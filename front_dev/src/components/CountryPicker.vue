@@ -285,7 +285,8 @@ export default {
   computed: {
     synCountry: {
       get () {
-        return this.Country
+        if (this.Country !== '') return this.Country
+        else return 'Taiwan'
       },
       set (val) {
         this.$emit('update:country', val)

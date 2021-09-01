@@ -34,13 +34,13 @@
                   aria-expanded="false"
                   aria-controls="collapseExample"
                 >
-                  Send verify code to email
+                  Send Verification code to email
                 </button>
               </div>
             </div>
             <div class="row mb-3 collapse" :id="hiddenclass">
               <label for="inputverifycode" class="col-sm-2 col-form-label"
-                >verify code</label
+                >Verification code</label
               >
               <div class="col-sm-7">
                 <input
@@ -78,7 +78,7 @@
                 <div class="invalid-feedback">{{ pwdVoildtext }}</div>
                 <div class="col-auto">
                   <span id="passwordHelpInline" class="form-text">
-                    Must be 12-20 characters long.
+                    Must be 8-20 characters long.
                   </span>
                 </div>
               </div>
@@ -98,7 +98,7 @@
               </div>
             </div>
             <button type="button" @click="onregist()" class="btn btn-primary">
-              Regist
+              Register
             </button>
           </form>
         </div>
@@ -119,7 +119,7 @@ export default {
     hiddenclass: 'collapseExample',
     verifycodeInvalidText: '',
     verifycodeInvalid: true,
-    verifycodeVoildtext: 'please input verify code',
+    verifycodeVoildtext: 'Please input verification code',
     verifydisable: false
   }),
   methods: {
@@ -151,6 +151,7 @@ export default {
           if (error.response.status === 400) {
             console.log(error.response.log)
           }
+          alert('You has already regist,Please login.')
           // error.response.status Check status code
         })
         .finally(() => {
@@ -174,6 +175,7 @@ export default {
           } else if (error.response.status === 404) {
             console.log(error.response.log)
           }
+          alert(error.response.status + ':' + error.response.log)
           // error.response.status Check status code
         })
         .finally(() => {
@@ -200,8 +202,10 @@ export default {
           } else if (error.response.status === 404) {
             console.log(error.response.log)
           }
+
           vm.verifycodeInvalidText = ' is-invalid'
-          vm.verifycodeVoildtext = 'wrong code, check verify code in your email'
+          vm.verifycodeVoildtext =
+            'wrong code, please check verification code in your email'
           // error.response.status Check status code
         })
         .finally(() => {
@@ -217,11 +221,11 @@ export default {
       return !this.firstCheck && this.EmailVoildtext !== 'Good'
     },
     EmailVoildtext () {
-      if (this.email.val === '') return 'please input email'
+      if (this.email.val === '') return 'Please input email'
       else if (!this.email.val.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
-        return 'emali format error'
+        return 'Emali format error'
       } else if (this.verifycodeInvalid) {
-        return 'check your verify code first'
+        return 'Check your verification code first'
       } else {
         return 'Good'
       }
@@ -233,9 +237,9 @@ export default {
       return this.PwdInvalid ? ' is-invalid' : ''
     },
     pwdVoildtext () {
-      if (this.pwd.val === '') return 'please input password'
-      else if (this.pwd.val.length < 12) {
-        return 'password length must more than 12'
+      if (this.pwd.val === '') return 'Please input password'
+      else if (this.pwd.val.length < 8) {
+        return 'Password length must more than 8'
       } else {
         return 'Good'
       }
@@ -247,9 +251,9 @@ export default {
       return this.ConfirmInvalid ? ' is-invalid' : ''
     },
     ConfirmVoildtext () {
-      if (this.confirm.val === '') return 'please input password'
+      if (this.confirm.val === '') return 'Please input password'
       else if (this.confirm.val !== this.pwd.val) {
-        return 'please input password again'
+        return 'Please input password again'
       } else {
         return 'Good'
       }

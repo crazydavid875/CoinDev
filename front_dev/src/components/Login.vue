@@ -72,6 +72,7 @@ export default {
           if (error.response.status === 400) {
             console.log(error.response.log)
           }
+          alert('Email or Password fail')
           // error.response.status Check status code
         })
         .finally(() => {

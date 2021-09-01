@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav>
-      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <div class="nav nav-tabs  justify-content-center" id="nav-tab" role="tablist">
         <button
           class="nav-link active"
           id="nav-home-tab"
