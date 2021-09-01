@@ -12,18 +12,51 @@ class AccountController{
     }   
     public function regist(){
         $data = Input::getJsonData();
+        if(!Input::getSession("emailVerify"))Output::Error('please verify your email first');
         $member = new Member($data);
+
         $insertid = $this->memberRepo->insert($member);
         Input::setSession("USERID",$insertid);
         Output::Success('{"id":"'.$insertid.'"}');
     }
     public function updateInfo(){
+        $memberRepo = $this->memberRepo;
         $data = Input::getJsonData();
         $id = Input::getSession("USERID");
-        $this->memberRepo->update($id,$data);
+        $memberRepo->update($id,$data);
+        $member = $memberRepo->find($id);
+        
+        if($member->complete){
+            $this->createRecord();
+        }
         Output::Success();
     }
-    
+    private function createRecord(){
+        $uid = Input::getSession("USERID");
+        $memberRepo = $this->memberRepo;
+        $recordRepo = new RecordRepo();
+        $articleRepo = new ArticleRepo();
+        $payItemRepo = new PayItemRepo();
+        $memberBuilder= new MemberBuilder($memberRepo,$articleRepo,$recordRepo,$payItemRepo);
+        $member = $memberBuilder->Build($uid);
+        
+        $records = $member->paymentRecords;
+        if(count($records)==0){
+            $newRecord = new Record(array('createtime'=>time(),'des'=>'no paper,'.$member->indent));
+            $insertid = $recordRepo->insert($uid,$newRecord);
+            $item = new PayItem(array(
+                'paymode'=>"without article",
+                'indent'=>$member->indent,
+                'page'=>1
+            ));
+            
+            $payItemRepo->insert($insertid,$item);
+        }
+        else{
+
+        }
+        Output::Success(json_encode(array('id'=>$insertid)));
+    }
     public function login(){
         $data = Input::getJsonData();
         $member = $this->memberRepo->login($data["email"],$data["pwd"]);
@@ -40,8 +73,14 @@ class AccountController{
         $data = Input::getJsonData();
         $ans = Input::getSession("EmailCode");
         $code = $data['code'];
-        if($ans==$code)Output::Success();
-        else Output::Error('fail');
+        if($ans==$code){
+            Input::setSession("emailVerify",true);
+            Output::Success();
+        }
+        else {
+            Input::setSession("emailVerify",false);
+            Output::Error('fail');
+        }
     }
     public function SendVerifyCode(){
         $data = Input::getJsonData();
@@ -52,6 +91,7 @@ class AccountController{
             array(
                 'email' => $email,
                 'pwd' => 'dav123aaxxccee',
+                'type' => 'verify',
                 'code'=>$code,
 
             )

@@ -33,7 +33,7 @@ const routes = [
     component: articleList
   },
   {
-    path: '/onpay',
+    path: '/onpay/:id',
     name: 'Payment',
     component: Payment
   },

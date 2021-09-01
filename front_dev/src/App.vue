@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view />
+    <img class="demo-bg" src="./assets/background.jpg" />
+    <div class="demo-content">
+      <img id="topimg" src="./assets/top11.png" />
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -10,9 +14,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  color: #2c3e50;
+  color: #ffffff;
 }
-
+.demo-bg {
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.9;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+}
+.demo-content {
+  position: relative;
+}
 #nav {
   padding: 30px;
 }
@@ -24,5 +40,9 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+#topimg {
+  display: block;
+  margin: auto;
 }
 </style>

@@ -36,7 +36,22 @@ class MemberRepo{
             return $member;
         }
     }
-    
+    public function findByRecord($rid){
+        $table = $this->table;
+        $isSuccess = SQL::Select("SELECT user.* FROM paymentrecord as record join user on record.uid=user.id WHERE record.id='$rid'");
+        if($isSuccess==-1){
+            Output::Error(SQL::getMsg());
+        }
+        elseif($isSuccess==0){
+            Output::NotFound("member");
+        }
+        else{
+            $result = SQL::getResult();
+            $member = new Member($result[0]);
+            $member->pwd='*';
+            return $member;
+        }
+    }
     public function insert($member){
         $pwd = $member->pwd;    
         $name = $member->name;

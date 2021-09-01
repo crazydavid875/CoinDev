@@ -2,35 +2,41 @@
   <div class="paymentpage">
     <div class="container">
       <div class="row mb-3">
-        <h2>確認繳款</h2>
+        <h2>Payment</h2>
       </div>
       <div class="row mb-3">
-        <label for="inputEmail3" class="col-sm-2 col-form-label"
-          >需付金額</label
-        >
+        <label for="inputAmount" class="col-sm-2 col-form-label">Amount </label>
         <div class="col-sm-10">
           <input
             class="form-control"
             type="text"
-            :placeholder="amt"
-            aria-label="readonly input example"
+            :placeholder="amt + ' NTD'"
+            id="inputAmount"
             readonly
           />
         </div>
       </div>
       <div class="row mb-3">
-        <label for="inputEmail3" class="col-sm-2 col-form-label"
-          >付款方式</label
+        <label for="inputReceipt" class="col-sm-2 col-form-label"
+          >Receipt (Invoice) Title (Not Necessary)
+        </label>
+        <div class="col-sm-10">
+          <input
+            class="form-control"
+            type="text"
+            id="inputReceipt"
+            v-model="receipt"
+          />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="inputmethods" class="col-sm-2 col-form-label"
+          >Payment methods</label
         >
         <div class="col-sm-10">
-          <select
-            class="form-select"
-            aria-label="Default select example"
-            v-model="paytype"
-          >
-            <option value="CREDIT" selected>信用卡</option>
-            <option value="CVS">超商繳費</option>
-            <option value="VACC">ATM轉帳</option>
+          <select class="form-select" id="inputmethods" v-model="paytype">
+            <option value="CREDIT" selected>Credit</option>
+            <option value="CVS">Others</option>
           </select>
         </div>
       </div>
@@ -46,7 +52,7 @@
         <input type="hidden" name="Version" readonly :value="Version" />
         <input type="hidden" name="MerchantID" readonly :value="MerchantID" />
         <button type="button" @click="onpay()" class="btn btn-primary">
-          付款
+          Submit
         </button>
       </form>
     </div>
@@ -63,7 +69,8 @@ export default {
     TradeInfo: '',
     Version: '',
     MerchantID: '',
-    paytype: 'CREDIT'
+    paytype: 'CREDIT',
+    receipt: ''
   }),
   mounted () {
     this.getAmt()
@@ -72,7 +79,10 @@ export default {
     onpay () {
       var vm = this
       axios
-        .post('/back/payment/getMPGRecord/', { paytype: vm.paytype })
+        .post('/back/payment/getMPGRecord/' + this.$route.params.id, {
+          paytype: vm.paytype,
+          receipt: vm.receipt
+        })
         .then(res => {
           var data = res.data
           vm.TradeSha = data.TradeSha
@@ -97,9 +107,9 @@ export default {
     getAmt () {
       var vm = this
       axios
-        .get('/back/payment/amt/')
+        .get('/back/payment/record/' + this.$route.params.id)
         .then(res => {
-          vm.amt = res.data
+          vm.amt = res.data.total
         })
         .catch(error => {
           if (error.response.status === 400) {

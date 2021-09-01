@@ -1,15 +1,17 @@
 <template>
   <div>
     <h3>
-      論文
+      Paper
     </h3>
 
-    <table class="table table-hover">
+    <table class="table  table-light table-striped table-hover">
       <thead>
         <tr>
           <td>#</td>
           <td>Title</td>
           <td>Auther</td>
+          <td>PaperID</td>
+          <td>Pages</td>
           <td></td>
         </tr>
       </thead>
@@ -18,6 +20,8 @@
           <td>{{ index + 1 }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.auth }}</td>
+          <td>{{ item.paperid }}</td>
+          <td>{{ item.pagecount }}</td>
           <td></td>
         </tr>
         <tr>
@@ -25,12 +29,18 @@
           <td><input class="form-control" type="text" v-model="newTitle" /></td>
           <td><input class="form-control" type="text" v-model="newAuth" /></td>
           <td>
+            <input class="form-control" type="text" v-model="newpaperid" />
+          </td>
+          <td>
+            <input class="form-control" type="text" v-model="newpagecount" />
+          </td>
+          <td>
             <button
               type="buttons"
               class="btn btn-outline-primary"
               @click="newArticle()"
             >
-              新增
+              New
             </button>
           </td>
         </tr>
@@ -45,7 +55,9 @@ export default {
   data: () => ({
     datas: [],
     newTitle: '',
-    newAuth: ''
+    newAuth: '',
+    newpaperid: '',
+    newpagecount: ''
   }),
   mounted () {
     var vm = this
@@ -67,15 +79,28 @@ export default {
   },
   methods: {
     newArticle () {
-      this.datas.push({ title: this.newTitle, auth: this.newAuth })
-      this.postNewArticle(this.newTitle, this.newAuth)
+      this.datas.push({
+        title: this.newTitle,
+        auth: this.newAuth,
+        paperid: this.newpaperid,
+        pagecount: this.newpagecount
+      })
+      this.postNewArticle()
       this.newTitle = ''
       this.newAuth = ''
+      this.newpaperid = ''
+      this.newpagecount = ''
     },
-    postNewArticle (title, auth) {
+    postNewArticle () {
       axios
-        .post('/back/article/', { title: title, auth: auth })
+        .post('/back/article/', {
+          title: this.newTitle,
+          auth: this.newAuth,
+          paperid: this.newpaperid,
+          pagecount: this.newpagecount
+        })
         .then(res => {
+          this.$router.go()
           // Perform Success Action push to memberpage
         })
         .catch(error => {

@@ -105,13 +105,15 @@ class Router{
     }
     private function Record($method,$action){
         $record = new PaymenyController();
-        $this->account->isLogin();
+        
         if($method == 'POST'){
             switch ($action) {
                 case 'payAll':
+                    $this->account->isLogin();
                     $record->PayAll();
                     break;
                 case 'getMPGRecord':
+                    $this->account->isLogin();
                     $record->getMPGRecord(Input::getPerms(2));
                     break;
                 case 'payNotify':

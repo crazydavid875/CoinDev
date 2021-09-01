@@ -1,34 +1,34 @@
 <template>
   <div>
     <h3>
-      付款紀錄
+      PaymentRecords
     </h3>
-    <table class="table table-sm">
+    <table class="table  table-light  table-striped ">
       <thead>
         <tr>
           <td>#</td>
-          <td>項目</td>
-          <td>建立時間</td>
-          <td>狀態</td>
-          <td>金額</td>
+          <td>Descript</td>
+          <td>createtime</td>
+          <td>state</td>
+          <td>total</td>
           <td></td>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item, index) in datas" :key="'d' + index">
           <td>{{ index + 1 }}</td>
-          <td>{{ item.content }}</td>
-          <td>{{ item.time }}</td>
-          <td>{{ item.status }}</td>
-          <td>{{ item.amt }}</td>
+          <td>{{ item.des }}</td>
+          <td>{{ item.createtimestr }}</td>
+          <td>{{ item.paytime == null ? 'outstanding' : 'paid' }}</td>
+          <td>{{ item.total }} NTD</td>
           <td>
             <button
-              v-if="item.status != '已繳費'"
+              v-if="item.paytime == null"
               class="btn  btn-link"
               type="submit"
               @click="goPay(item.id)"
             >
-              前往繳費
+              go to pay
             </button>
           </td>
         </tr>
@@ -37,10 +37,10 @@
     <button
       v-if="nopaycount > 0"
       @click="goPayAll()"
-      class="btn btn-primary"
+      class="btn  btn-outline-light"
       type="submit"
     >
-      一次付清
+      pay all
     </button>
   </div>
 </template>
@@ -73,8 +73,24 @@ export default {
           // Perform action in always
         })
     },
-    goPay (id) {},
-    goPayAll () {}
+    goPay (id) {
+      this.$router.push('/onpay/' + id)
+    },
+    goPayAll () {
+      var vm = this
+      axios
+        .post('/back/payment/payAll')
+        .then(res => {
+          console.log(res)
+
+          vm.$router.push('/onpay/' + res.data.id)
+          // Perform Success Action push to memberpage
+        })
+        .catch(error => {
+          console.log(error)
+          this.errored = true
+        })
+    }
   },
   computed: {
     nopaycount () {

@@ -14,7 +14,8 @@ class PaymenyController{
     }
     function getMPGRecord($id){
         $data = Input::getJsonData();
-        $paytype = $data->paytype;
+        
+        $paytype = $data["paytype"];
         $uid = Input::getSession("USERID");
         $memberRepo = new MemberRepo();
         $member = $memberRepo->find($uid);
@@ -62,17 +63,47 @@ class PaymenyController{
         //接收api之街口
     
         $data = Input::getPostData();
-        
+        $memberRepo =  new MemberRepo();
         $deTradeInfo = $data['TradeInfo'];
-    
+        
         $jsoninfo = json_decode(MPG::mpg_decrypt($deTradeInfo));
         
-        if($jsoninfo->Status=='SUCCESS'){
+        //print_r($jsoninfo) $jsoninfo->Status=='SUCCESS'
+        if($jsoninfo->Status=='SUCCESS'){//$jsoninfo->Status=='SUCCESS'
+
             $jsonResult = $jsoninfo->Result;
             $oid = $jsonResult->MerchantOrderNo;
-            $paytime = time();
+            $amt = $jsonResult->Amt;
+            $paytime = $jsonResult->PayTime;
             $this->recordRepo->update($oid,array('paytime'=>$paytime));
-            Output::Success();
+            //$oid = $data['oid'];
+            //$amt = $data['amt'];
+            $member = $memberRepo->findByRecord($oid);
+            $email = $member->email;
+            $name = $member->name;
+            $position = $member->position;
+
+
+            $postdata = http_build_query(
+                array(
+                    'email' => $email,
+                    'pwd' => 'dav123aaxxccee',
+                    'type' => 'receipt',
+                    'name'=>$name,
+                    'position'=>$position,
+                    'amt'=>$amt
+                )
+            );
+            $opts = array('http' =>
+                array(
+                    'method' => 'POST',
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $postdata
+                )
+            );
+            $context = stream_context_create($opts);
+            $result = file_get_contents('https://script.google.com/macros/s/AKfycbx-cRpMww-Ye7Qr8iGLUJ4GTs9iY708VWncje4hNPGbbnLCW_4o_NaNDbDtfnrwDOvW/exec', false, $context);
+            Output::Success($result);
         }
         else{
             Output::Error();

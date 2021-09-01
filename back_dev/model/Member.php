@@ -16,6 +16,7 @@ class Member{
     public $paymentRecords = [];
     public $totalpaied=0;
     public $totalUnPay=0;
+    public $complete = false;
     public static $columns = ['pwd','name', 'email', 'position', 
     'affiliation', 'country', 'tel', 'ieeeid', 'studentid'];
     public function __construct($data){
@@ -63,6 +64,8 @@ class Member{
                 $this->indent = 'student';
             }
         }
+        $this->complete = isset($data['name'])&&$data['name']!=''&&isset($data['affiliation'])&&$data['affiliation']!=''
+        &&isset($data['position'])&&$data['position']!=''&&isset($data['country'])&&$data['country']!=''&&isset($data['tel'])&&$data['tel']!='';
     }
     public function getTotalpaied(){
         $this->totalpaied = 0;
@@ -79,6 +82,9 @@ class Member{
                 $this->totalUnPay +=$item->getTotal();
         }
         return $this->totalUnPay;
+    }
+    public function hasComplete(){
+        return $this->complete;
     }
     public function print(){
         $data = [];

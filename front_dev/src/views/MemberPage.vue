@@ -11,7 +11,7 @@
               href="#list-profile"
               role="tab"
               aria-controls="list-profile"
-              >基本資料</a
+              >Profile</a
             >
             <a
               class="list-group-item list-group-item-action"
@@ -20,7 +20,7 @@
               href="#list-messages"
               role="tab"
               aria-controls="list-messages"
-              >論文</a
+              >Papers</a
             >
             <a
               class="list-group-item list-group-item-action"
@@ -29,7 +29,7 @@
               href="#list-settings"
               role="tab"
               aria-controls="list-settings"
-              >付款紀錄</a
+              >PaymentRecords</a
             >
           </div>
         </div>

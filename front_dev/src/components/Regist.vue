@@ -10,33 +10,57 @@
         <div class="col">
           <form>
             <div class="row mb-3">
-              <label for="inputname" class="col-sm-2 col-form-label"
-                >Name</label
-              >
-              <div class="col-sm-10">
-                <input
-                  type="text"
-                  name="name"
-                  :class="'form-control' + NameInvalidText"
-                  id="inputname"
-                  v-model="name.val"
-                />
-                <div class="invalid-feedback">{{ NameVoildtext }}</div>
-              </div>
-            </div>
-            <div class="row mb-3">
               <label for="inputEmail3" class="col-sm-2 col-form-label"
                 >Email</label
               >
-              <div class="col-sm-10">
+              <div class="col-sm-7">
                 <input
                   type="email"
                   name="email"
                   :class="'form-control' + EmailInvalidText"
                   id="inputEmail3"
                   v-model="email.val"
+                  :readonly="verifydisable"
                 />
                 <div class="invalid-feedback">{{ EmailVoildtext }}</div>
+              </div>
+              <div class="col-sm-3">
+                <button
+                  type="button"
+                  @click="onSendCode()"
+                  class="btn btn-primary"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseExample"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                >
+                  Send verify code to email
+                </button>
+              </div>
+            </div>
+            <div class="row mb-3 collapse" :id="hiddenclass">
+              <label for="inputverifycode" class="col-sm-2 col-form-label"
+                >verify code</label
+              >
+              <div class="col-sm-7">
+                <input
+                  type="text"
+                  name="verifycode"
+                  :class="'form-control' + verifycodeInvalidText"
+                  id="inputverifycode"
+                  v-model="verifycode.val"
+                  :readonly="verifydisable"
+                />
+                <div class="invalid-feedback">{{ verifycodeVoildtext }}</div>
+              </div>
+              <div class="col-sm">
+                <button
+                  type="button"
+                  @click="onVerify()"
+                  class="btn btn-primary"
+                >
+                  verify email
+                </button>
               </div>
             </div>
             <div class="row mb-3">
@@ -52,11 +76,29 @@
                   v-model="pwd.val"
                 />
                 <div class="invalid-feedback">{{ pwdVoildtext }}</div>
+                <div class="col-auto">
+                  <span id="passwordHelpInline" class="form-text">
+                    Must be 12-20 characters long.
+                  </span>
+                </div>
               </div>
             </div>
-
+            <div class="row mb-3">
+              <label for="inputPassword4" class="col-sm-2 col-form-label"
+                >Password confirm</label
+              >
+              <div class="col-sm-10">
+                <input
+                  type="password"
+                  :class="'form-control' + ConfirmInvalidText"
+                  id="inputPassword4"
+                  v-model="confirm.val"
+                />
+                <div class="invalid-feedback">{{ ConfirmVoildtext }}</div>
+              </div>
+            </div>
             <button type="button" @click="onregist()" class="btn btn-primary">
-              Next
+              Regist
             </button>
           </form>
         </div>
@@ -71,25 +113,38 @@ export default {
   data: () => ({
     email: { val: '' },
     pwd: { val: '' },
-    name: { val: '' },
-    firstCheck: true
+    confirm: { val: '' },
+    verifycode: { val: '' },
+    firstCheck: true,
+    hiddenclass: 'collapseExample',
+    verifycodeInvalidText: '',
+    verifycodeInvalid: true,
+    verifycodeVoildtext: 'please input verify code',
+    verifydisable: false
   }),
   methods: {
     onregist () {
       var vm = this
       this.firstCheck = false
-      if (this.PwdInvalid || this.EmailInvalid || this.NameInvalid) {
+      if (this.verifycodeInvalid) {
+        vm.verifycodeInvalidText = ' is-invalid'
+      }
+      if (
+        this.PwdInvalid ||
+        this.EmailInvalid ||
+        this.ConfirmInvalid ||
+        this.verifycodeInvalid
+      ) {
         return
       }
       axios
         .post('/back/account/regist', {
           email: this.email.val,
-          pwd: this.pwd.val,
-          name: this.name.val
+          pwd: this.pwd.val
         })
         .then(res => {
           console.log(res)
-          vm.$router.push('/addArticle')
+          vm.$router.push('/MemberPage')
           // Perform Success Action push to memberpage
         })
         .catch(error => {
@@ -101,21 +156,60 @@ export default {
         .finally(() => {
           // Perform action in always
         })
+    },
+    onSendCode () {
+      var vm = this
+      axios
+        .post('/back/account/SendVerifyCode', {
+          email: this.email.val
+        })
+        .then(res => {
+          console.log(res)
+          vm.hiddenclass = ''
+          // Perform Success Action push to memberpage
+        })
+        .catch(error => {
+          if (error.response.status === 400) {
+            console.log(error.response.log)
+          } else if (error.response.status === 404) {
+            console.log(error.response.log)
+          }
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          // Perform action in always
+        })
+    },
+    onVerify () {
+      var vm = this
+      axios
+        .post('/back/account/verifyEmail', {
+          code: this.verifycode.val
+        })
+        .then(res => {
+          console.log(res)
+          vm.hiddenclass = ''
+          vm.verifycodeInvalidText = ''
+          vm.verifycodeInvalid = false
+          vm.verifydisable = true
+          // Perform Success Action push to memberpage
+        })
+        .catch(error => {
+          if (error.response.status === 400) {
+            console.log(error.response.log)
+          } else if (error.response.status === 404) {
+            console.log(error.response.log)
+          }
+          vm.verifycodeInvalidText = ' is-invalid'
+          vm.verifycodeVoildtext = 'wrong code, check verify code in your email'
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          // Perform action in always
+        })
     }
   },
   computed: {
-    NameVoildtext () {
-      if (this.name.val === '') return 'please input name'
-      else {
-        return 'Good'
-      }
-    },
-    NameInvalid () {
-      return !this.firstCheck && this.NameVoildtext !== 'Good'
-    },
-    NameInvalidText () {
-      return this.NameInvalid ? ' is-invalid' : ''
-    },
     EmailInvalidText () {
       return this.EmailInvalid ? ' is-invalid' : ''
     },
@@ -126,6 +220,8 @@ export default {
       if (this.email.val === '') return 'please input email'
       else if (!this.email.val.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
         return 'emali format error'
+      } else if (this.verifycodeInvalid) {
+        return 'check your verify code first'
       } else {
         return 'Good'
       }
@@ -140,6 +236,20 @@ export default {
       if (this.pwd.val === '') return 'please input password'
       else if (this.pwd.val.length < 12) {
         return 'password length must more than 12'
+      } else {
+        return 'Good'
+      }
+    },
+    ConfirmInvalid () {
+      return !this.firstCheck && this.ConfirmVoildtext !== 'Good'
+    },
+    ConfirmInvalidText () {
+      return this.ConfirmInvalid ? ' is-invalid' : ''
+    },
+    ConfirmVoildtext () {
+      if (this.confirm.val === '') return 'please input password'
+      else if (this.confirm.val !== this.pwd.val) {
+        return 'please input password again'
       } else {
         return 'Good'
       }

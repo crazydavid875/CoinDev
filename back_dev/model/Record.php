@@ -7,6 +7,7 @@ class Record{
     public $receiptitle='';
     public $items=[];
     public $total=0;
+    public $createtimestr='';
     public static $columns = ['createtime', 'paytime', 'des','receiptitle'];
 
     public function __construct($data){
@@ -14,7 +15,8 @@ class Record{
             $this->id = $data['id'];
         }
         if(isset($data['createtime'])){
-            $this->createtime = $data['createtime'];
+            $this->createtime =   $data['createtime'];
+            $this->createtimestr = date("Y-m-d H:i:s",$data['createtime']);
         }
         if(isset($data['paytime'])){
             $this->paytime = $data['paytime'];
