@@ -33,7 +33,7 @@
 
         <a
           v-if="alerttext == 'Registration Fee Unpaid'"
-          href="/MemberPage/3/payrecord"
+          @click="gotopay()"
           class="btn btn-primary"
         >
           Pay
@@ -386,14 +386,18 @@
           />
         </div>
       </div>
-      <button
-        v-if="changeMode"
-        type="button"
-        class="btn btn-primary"
-        @click="onSave()"
-      >
-        Save
-      </button>
+      <div class="row mb-3 ">
+        <div class="col-sm-2 text-end">
+        <button
+          v-if="changeMode"
+          type="button"
+          class="  btn btn-primary"
+          @click="onSave()"
+        >
+          Save
+        </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -516,6 +520,9 @@ export default {
           this.onLoad()
           // Perform action in always
         })
+    },
+    gotopay () {
+      this.$router.push('/MemberPage/3/payrecord')
     }
   },
   computed: {
