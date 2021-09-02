@@ -1,92 +1,66 @@
 <template>
-  <div class="mpage">
-    <div class="container">
-      <div class="row">
-        <div class="col-2">
-          <div class="list-group" id="list-tab" role="tablist">
-            <a
-              class="list-group-item list-group-item-action active"
-              id="list-profile-list"
-              data-bs-toggle="list"
-              href="#list-profile"
-              role="tab"
-              aria-controls="list-profile"
-              >Profile</a
+  <div class="mpage ">
+    <nav
+      class="navbar navbar-expand-lg justify-content-center navbar-dark  bg-dark"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">WOCC</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <router-link
+              :class="
+                'nav-link ' + (this.$route.params.act == '1' ? 'active' : '')
+              "
+              to="/MemberPage/1/profile"
+              >Profile</router-link
             >
-            <a
-              class="list-group-item list-group-item-action"
-              id="list-messages-list"
-              data-bs-toggle="list"
-              href="#list-messages"
-              role="tab"
-              aria-controls="list-messages"
-              >Paper(s)</a
+
+            <router-link
+              :class="
+                'nav-link ' + (this.$route.params.act == '2' ? 'active' : '')
+              "
+              to="/MemberPage/2/paper"
+              >Paper(s)</router-link
             >
-            <a
-              class="list-group-item list-group-item-action"
-              id="list-settings-list"
-              data-bs-toggle="list"
-              href="#list-settings"
-              role="tab"
-              aria-controls="list-settings"
-              >Payment Record</a
+
+            <router-link
+              :class="
+                'nav-link ' + (this.$route.params.act == '3' ? 'active' : '')
+              "
+              to="/MemberPage/3/payrecord"
+              >Payment Record</router-link
             >
           </div>
         </div>
-        <div class="col-8">
-          <div class="tab-content" id="nav-tabContent">
-            <div
-              class="tab-pane fade  show active"
-              id="list-profile"
-              role="tabpanel"
-              aria-labelledby="list-profile-list"
-            >
-              <Profile />
-            </div>
-            <div
-              class="tab-pane fade"
-              id="list-messages"
-              role="tabpanel"
-              aria-labelledby="list-messages-list"
-            >
-              <Article />
-            </div>
-            <div
-              class="tab-pane fade"
-              id="list-settings"
-              role="tabpanel"
-              aria-labelledby="list-settings-list"
-            >
-              <PayRecord />
-            </div>
-          </div>
-        </div>
-        <router-link to="/MemberPage/profile">Profile</router-link>
-        <br>
-        <router-link to="/MemberPage/article">Paper(s)</router-link>
-        <br>
-        <router-link to="/MemberPage/payrecord">Payment Record</router-link>
-        <transition>
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
-        </transition>
       </div>
+    </nav>
+    <div class="mycontents">
+      <transition>
+        <router-view></router-view>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
-import Profile from '@/components/Profile.vue'
-import Article from '@/components/Article.vue'
-import PayRecord from '@/components/PayRecord.vue'
-export default {
-  components: { Profile, Article, PayRecord }
-}
+export default {}
 </script>
 
 <style>
 .mpage {
-  margin-top: 5rem;
+}
+.mycontents {
+  padding-top: 2rem;
 }
 </style>

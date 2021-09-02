@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="payrec">
     <h3>
       Payment Record
     </h3>
@@ -19,7 +19,7 @@
           <td>{{ index + 1 }}</td>
           <td>{{ item.des }}</td>
           <td>{{ item.createtimestr }}</td>
-          <td>{{ item.paytime == null ? 'unpay' : 'paid' }}</td>
+          <td>{{ item.paytime == null ? 'unpaid' : 'paid' }}</td>
           <td>{{ item.total }} NTD</td>
           <td>
             <button
@@ -28,7 +28,7 @@
               type="submit"
               @click="goPay(item.id)"
             >
-              Go to pay
+              Pay
             </button>
           </td>
         </tr>
@@ -102,4 +102,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.payrec {
+  height: 100vh;
+}
+</style>

@@ -21,7 +21,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/MemberPage',
+    path: '/MemberPage/:act',
     name: 'MemberPage',
     component: MemberPage,
     children: [
@@ -30,7 +30,7 @@ const routes = [
         component: profile
       },
       {
-        path: 'article',
+        path: 'paper',
         component: article
       },
       {

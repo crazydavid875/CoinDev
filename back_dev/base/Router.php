@@ -4,7 +4,7 @@ class Router{
     public function Route($method,$service,$action){
         $this->account = new AccountController();
         if($service=='account'){
-            $this->Account($method,$action);
+            $this->Account($method,$action); 
         }
         else if($service == 'article'){
             $this->Article($method,$action);
@@ -32,7 +32,7 @@ class Router{
                 case 'SendVerifyCode':
                     $account->SendVerifyCode();
                     break;
-                case 'verifyEmail':
+                case 'verifyEmail'://  ip/back/account/verifyEmail
                     $account->verifyEmail();
                     break;
                 default:
@@ -99,6 +99,17 @@ class Router{
                     break;
             }
         }
+        else if($method=='DELETE'){
+            switch ($action) {
+                case 'aid':
+                    $article->DeleteArticle(Input::getPerms(2));
+                    break;
+                default:
+                    Output::NotFound();
+                    break;
+            }
+        }
+        
         else{
             Output::NotFound();
         }

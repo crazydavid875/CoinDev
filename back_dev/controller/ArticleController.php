@@ -40,7 +40,7 @@ class ArticleController{
             'indent'=>$member->indent,
             'page'=>1
         ));
-        $payItemRepo->insert($recordid,$payitem);
+        $payItemRepo->insert($recordid,$payitem,$insertid);
         
         //extr page
         $pagecount = intval($article->pagecount);
@@ -49,8 +49,10 @@ class ArticleController{
                 'paymode'=>"extra page",
                 'page'=>$pagecount-5
             ));
-            $payItemRepo->insert($recordid,$payitem);
+            $payItemRepo->insert($recordid,$payitem,$insertid);
         }
+
+        
         Output::Success('{"id":"'.$insertid.'"}');
         
     }
@@ -65,9 +67,49 @@ class ArticleController{
     //修改論文
     public function SetArticle($id){
         $data = Input::getJsonData();
-        
-        $articles = $this->articleRepo->update($id,$data);
+        $article = $this->articleRepo->find($id);
+        //print_r( $article);
+        if($data['pagecount']!=$article->pagecount){
+            $this->DeleteArticle($id);
+            $this->addArticle();
+        } 
+        else{//    Output::Error('Could not change pages while you has already paid for the paper ');
+            $this->articleRepo->update($id,$data);
+        }
         Output::Success();
     }
-    
+    //刪除論文
+    public function DeleteArticle($id){
+        $data = Input::getJsonData();
+        $uid = Input::getSession("USERID");
+        $article = $this->articleRepo->find($id);
+        $this->articleRepo->delete($id);
+        $articles = $this->articleRepo->findAll($uid);
+        if(count($articles)<=0){
+            $memberRepo = new MemberRepo();
+            $recordRepo = new RecordRepo();
+            $payItemRepo = new PayItemRepo();
+            $member = $memberRepo->find($uid);
+            $records = $recordRepo->findAll($uid);
+            $haspaid = false;
+            foreach($records as $record){
+                if(!$record->getIspay())
+                    $recordRepo->delete($record->id);
+                else
+                    $haspaid = true;
+            }
+            if($haspaid) Output::Success();
+            $newRecord = new Record(array('createtime'=>time(),'des'=>'no paper,'.$member->indent));
+            
+            $insertid = $recordRepo->insert($uid,$newRecord);
+            $item = new PayItem(array(
+                'paymode'=>"without article",
+                'indent'=>$member->indent,
+                'page'=>1
+            ));
+            
+            $payItemRepo->insert($insertid,$item);
+        }
+        Output::SuccessWithoutExit();
+    }
 }

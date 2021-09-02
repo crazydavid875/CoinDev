@@ -8,7 +8,7 @@ class PayItem{
     public $total = 0;
     public $indent='';
     public $paymode='';
-    public static $columns = ['page'];
+    public static $columns = ['page','rid'];
 
     public function __construct($data){
         if(isset($data['id'])){

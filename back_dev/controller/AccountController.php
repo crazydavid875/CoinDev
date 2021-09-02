@@ -12,7 +12,7 @@ class AccountController{
     }   
     public function regist(){
         $data = Input::getJsonData();
-        if(!Input::getSession("emailVerify"))Output::Error('please verify your email first');
+        $this->verifyEmail();
         $member = new Member($data);
 
         $insertid = $this->memberRepo->insert($member);
@@ -29,6 +29,7 @@ class AccountController{
         if($member->complete){
             $this->createRecord();
         }
+        
         Output::Success();
     }
     private function createRecord(){
@@ -53,7 +54,19 @@ class AccountController{
             $payItemRepo->insert($insertid,$item);
         }
         else{
-
+            
+            foreach($records as $record){
+                if(!$record->getIspay()){
+                    $indent = $member->indent;
+                    $hasArticle = count($member->articles)>0;
+                    $payItemRepo->updatePids($record->id,$hasArticle,$indent);
+                    $splitrecordDes = explode(',',$record->des);
+                    
+                    if(count($splitrecordDes)>=2)
+                    $str = $splitrecordDes[0].','.$indent;
+                        $recordRepo->update($record->id,array('des'=>$str ));
+                }
+            }
         }
         Output::Success(json_encode(array('id'=>$insertid)));
     }
@@ -75,11 +88,11 @@ class AccountController{
         $code = $data['code'];
         if($ans==$code){
             Input::setSession("emailVerify",true);
-            Output::Success();
+            //Output::Success();
         }
         else {
             Input::setSession("emailVerify",false);
-            Output::Error('fail');
+            Output::Error('Email Verification fail');
         }
     }
     public function SendVerifyCode(){
@@ -104,7 +117,7 @@ class AccountController{
             )
         );
         $context = stream_context_create($opts);
-        $result = file_get_contents('https://script.google.com/macros/s/AKfycbx-cRpMww-Ye7Qr8iGLUJ4GTs9iY708VWncje4hNPGbbnLCW_4o_NaNDbDtfnrwDOvW/exec', false, $context);
+        $result = file_get_contents('https://script.google.com/macros/s/AKfycbyqPotkZmEVQUhrGSFU__UxK79p-acvd5NjRQ5UG76DFQ_uIK1imQEQ1x_dEW_aNJPd/exec', false, $context);
         Output::Success($result);
         //產生email驗證碼，並記出信箱  todo:寄信
     }

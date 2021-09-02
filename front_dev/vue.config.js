@@ -1,6 +1,6 @@
 module.exports = {
   // publicPath: process.env.NODE_ENV === "production" ? "" : "/",
-  publicPath: process.env.NODE_ENV === 'production' ? '/front/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/wocc/front/' : '/',
   assetsDir: 'assets',
   productionSourceMap: false,
   filenameHashing: true,
@@ -12,10 +12,10 @@ module.exports = {
   },
   devServer: {
     // host: 'localhost',
-    port: 80,
+    port: 443,
     proxy: {
       '/back': {
-        target: 'http://localhost/back',
+        target: 'http://localhost/wocc/back',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

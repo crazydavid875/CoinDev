@@ -10,7 +10,7 @@
         <div class="col">
           <form>
             <div class="row mb-3">
-              <label for="inputEmail3" class="col-sm-2 col-form-label"
+              <label for="inputEmail3" class="col-sm-2  text-end col-form-label"
                 >Email</label
               >
               <div class="col-sm-7">
@@ -39,10 +39,10 @@
               </div>
             </div>
             <div class="row mb-3 collapse" :id="hiddenclass">
-              <label for="inputverifycode" class="col-sm-2 col-form-label"
+              <label for="inputverifycode" class="col-sm-2  text-end col-form-label"
                 >Verification code</label
               >
-              <div class="col-sm-7">
+              <div class="col-sm-2">
                 <input
                   type="text"
                   name="verifycode"
@@ -53,18 +53,9 @@
                 />
                 <div class="invalid-feedback">{{ verifycodeVoildtext }}</div>
               </div>
-              <div class="col-sm">
-                <button
-                  type="button"
-                  @click="onVerify()"
-                  class="btn btn-primary"
-                >
-                  verify email
-                </button>
-              </div>
             </div>
             <div class="row mb-3">
-              <label for="inputPassword3" class="col-sm-2 col-form-label"
+              <label for="inputPassword3" class="col-sm-2  text-end col-form-label"
                 >Password</label
               >
               <div class="col-sm-10">
@@ -84,7 +75,7 @@
               </div>
             </div>
             <div class="row mb-3">
-              <label for="inputPassword4" class="col-sm-2 col-form-label"
+              <label for="inputPassword4" class="col-sm-2  text-end col-form-label"
                 >Password confirm</label
               >
               <div class="col-sm-10">
@@ -126,32 +117,27 @@ export default {
     onregist () {
       var vm = this
       this.firstCheck = false
-      if (this.verifycodeInvalid) {
-        vm.verifycodeInvalidText = ' is-invalid'
-      }
-      if (
-        this.PwdInvalid ||
-        this.EmailInvalid ||
-        this.ConfirmInvalid ||
-        this.verifycodeInvalid
-      ) {
+
+      if (this.PwdInvalid || this.EmailInvalid || this.ConfirmInvalid) {
         return
       }
       axios
         .post('/back/account/regist', {
           email: this.email.val,
-          pwd: this.pwd.val
+          pwd: this.pwd.val,
+          code: this.verifycode.val
         })
         .then(res => {
           console.log(res)
-          vm.$router.push('/MemberPage')
+          vm.$router.push('/MemberPage/1/profile')
           // Perform Success Action push to memberpage
         })
         .catch(error => {
           if (error.response.status === 400) {
-            console.log(error.response.log)
           }
-          alert('You has already regist,Please login.')
+          if (error.request.responseText.match(/Duplicate entry/)) {
+            alert('You have already regist, please login')
+          } else alert(error.request.responseText)
           // error.response.status Check status code
         })
         .finally(() => {
@@ -181,36 +167,6 @@ export default {
         .finally(() => {
           // Perform action in always
         })
-    },
-    onVerify () {
-      var vm = this
-      axios
-        .post('/back/account/verifyEmail', {
-          code: this.verifycode.val
-        })
-        .then(res => {
-          console.log(res)
-          vm.hiddenclass = ''
-          vm.verifycodeInvalidText = ''
-          vm.verifycodeInvalid = false
-          vm.verifydisable = true
-          // Perform Success Action push to memberpage
-        })
-        .catch(error => {
-          if (error.response.status === 400) {
-            console.log(error.response.log)
-          } else if (error.response.status === 404) {
-            console.log(error.response.log)
-          }
-
-          vm.verifycodeInvalidText = ' is-invalid'
-          vm.verifycodeVoildtext =
-            'wrong code, please check verification code in your email'
-          // error.response.status Check status code
-        })
-        .finally(() => {
-          // Perform action in always
-        })
     }
   },
   computed: {
@@ -224,8 +180,6 @@ export default {
       if (this.email.val === '') return 'Please input email'
       else if (!this.email.val.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
         return 'Emali format error'
-      } else if (this.verifycodeInvalid) {
-        return 'Check your verification code first'
       } else {
         return 'Good'
       }

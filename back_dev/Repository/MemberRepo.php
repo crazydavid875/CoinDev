@@ -38,7 +38,8 @@ class MemberRepo{
     }
     public function findByRecord($rid){
         $table = $this->table;
-        $isSuccess = SQL::Select("SELECT user.* FROM paymentrecord as record join user on record.uid=user.id WHERE record.id='$rid'");
+        $isSuccess = SQL::Select("SELECT user.* FROM paymentrecord as record 
+        join user on record.uid=user.id WHERE record.id='$rid'");
         if($isSuccess==-1){
             Output::Error(SQL::getMsg());
         }
@@ -63,13 +64,14 @@ class MemberRepo{
         $tel = $member->tel;                   
         $ieeeid = $member->ieeeid;
         $studentid = $member->studentid;
-
+        $isveg = $member->isveg;
+        $teamsid = $member->teamsid;
         $table = $this->table;
         $query = "INSERT INTO $table
         (`pwd`,`name`, `email`, `indentid`, `position`, 
-        `affiliation`, `country`, `tel`, `ieeeid`, `studentid`) 
+        `affiliation`, `country`, `tel`, `ieeeid`, `studentid`,isveg,teamsid) 
         VALUES ('$pwd','$name','$email',(select id from indentify where name='$indent')
-        ,'$position','$affiliation','$country','$tel','$ieeeid','$studentid')";
+        ,'$position','$affiliation','$country','$tel','$ieeeid','$studentid','$isveg','$teamsid')";
         
         $isSuccess = SQL::Insert($query);
         if($isSuccess==-1){

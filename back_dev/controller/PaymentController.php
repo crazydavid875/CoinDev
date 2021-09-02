@@ -41,23 +41,24 @@ class PaymenyController{
         $payItemRepo = new PayItemRepo();
         $memberBuilder= new MemberBuilder($memberRepo,$articleRepo,$recordRepo,$payItemRepo);
         $member = $memberBuilder->Build($uid);
+
+        $newRecord = new Record(array('createtime'=>time(),'des'=>'Payment'));
+        $insertid = $recordRepo->insert($uid,$newRecord);
         
+
         $records = $member->paymentRecords;
-        $Payitems = [];
+        
+        
         foreach($records as $record){
             if(!$record->getIspay()){
-                
-                $Payitems = array_merge($Payitems,$record->items);
+                $payItems = $payItemRepo->findAll($record->id);
+                foreach($payItems as $payitem){
+                    $payItemRepo->update($payitem->id,array('rid'=>$insertid));
+                }
                 $recordRepo->delete($record->id);
             }
         }
         
-        $newRecord = new Record(array('items'=>$Payitems,'createtime'=>time(),'des'=>'pay all'));
-        $insertid = $recordRepo->insert($uid,$newRecord);
-        
-        foreach($Payitems as $item){
-            $payItemRepo->insert($insertid,$item);
-        }
         Output::Success('{"id":"'.$insertid.'"}');
         
     }
@@ -69,14 +70,18 @@ class PaymenyController{
         $deTradeInfo = $data['TradeInfo'];
         
         $jsoninfo = json_decode(MPG::mpg_decrypt($deTradeInfo));
-        
+        //print_r($jsoninfo);
+        //$myfile = fopen("log".time().".txt", "w");
+        //$txt = json_encode($data)."\n\n";
+        //fwrite($myfile, $txt);
+        //fclose($myfile);
         //print_r($jsoninfo) $jsoninfo->Status=='SUCCESS'
         if($jsoninfo->Status=='SUCCESS'){//$jsoninfo->Status=='SUCCESS'
 
             $jsonResult = $jsoninfo->Result;
             $oid = $jsonResult->MerchantOrderNo;
             $amt = $jsonResult->Amt;
-            $paytime = $jsonResult->PayTime;
+            $paytime = strtotime($jsonResult->PayTime);
             $this->recordRepo->update($oid,array('paytime'=>$paytime));
             //$oid = $data['oid'];
             //$amt = $data['amt'];
@@ -104,7 +109,7 @@ class PaymenyController{
                 )
             );
             $context = stream_context_create($opts);
-            $result = file_get_contents('https://script.google.com/macros/s/AKfycbx-cRpMww-Ye7Qr8iGLUJ4GTs9iY708VWncje4hNPGbbnLCW_4o_NaNDbDtfnrwDOvW/exec', false, $context);
+            $result = file_get_contents('https://script.google.com/macros/s/AKfycbyqPotkZmEVQUhrGSFU__UxK79p-acvd5NjRQ5UG76DFQ_uIK1imQEQ1x_dEW_aNJPd/exec', false, $context);
             Output::Success($result);
         }
         else{

@@ -16,14 +16,17 @@ class Mpg{
             'Amt' => $amt,
             'ItemDesc' => $ItemName,
             'Email' => $email,
-            'ReturnURL'=>'https://140.124.181.72/front',
-            'ClientBackURL'=>'https://140.124.181.72/front',
-            'NotifyURL'=>'https://140.124.181.72/back/payment/payNotify',
-            'LangType'=>'en'
+            'ReturnURL'=>'https://acl.csie.ntut.edu.tw/wocc/front/MemberPage/1/profile',
+            'ClientBackURL'=>'https://acl.csie.ntut.edu.tw/wocc/front/MemberPage/1/profile',
+            'NotifyURL'=>'https://acl.csie.ntut.edu.tw/back/payment/payNotify',
+            'LangType'=>'en',
+            'CREDIT'=>1,
+            'VACC'=>1,
+            'CVS'=>1,
+            'BARCODE'=>1,
+            'WEBATM'=>1
         );
-        if($paytype=='CREDIT'){
-            $trade_info_arr['CREDIT']=1;
-        }  
+        
          
         $aes = MPG::create_mpg_aes_encrypt ($trade_info_arr, Mpg::$mer_key, Mpg::$mer_iv);
         $hash = 'HashKey='.Mpg::$mer_key.'&'.$aes.'&HashIV='.Mpg::$mer_iv;
@@ -53,7 +56,8 @@ class Mpg{
     }
     static function mpg_decrypt($deTradeInfo){
         $deinfo = MPG::create_aes_decrypt($deTradeInfo,MPG::$mer_key,MPG::$mer_iv);
-        //print_r($deinfo)
+        
+        //print_r($deinfo);
         //$arr =  explode("&",$deinfo);
         //$res = [];
         //foreach($arr as $item){

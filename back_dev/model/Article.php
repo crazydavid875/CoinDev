@@ -5,7 +5,8 @@ class Article{
     public $auth='';
     public $paperid='';
     public $pagecount='';
-    public static $columns = ['title','auth', 'paperid'];
+    public $hasPaid=false;
+    public static $columns = ['title','auth', 'paperid','pagecount'];
     public function __construct($data){
         if(isset($data['id'])){
             $this->id = $data['id'];
@@ -21,6 +22,9 @@ class Article{
         }
         if(isset($data['pagecount'])){
             $this->pagecount = $data['pagecount'];
+        }
+        if(isset($data['paytime'])&&$data['paytime']!=''){
+            $this->hasPaid = true;
         }
     }
 }

@@ -16,12 +16,20 @@ class Member{
     public $paymentRecords = [];
     public $totalpaied=0;
     public $totalUnPay=0;
+    public $isveg='';
+    public $teamsid='';
     public $complete = false;
     public static $columns = ['pwd','name', 'email', 'position', 
-    'affiliation', 'country', 'tel', 'ieeeid', 'studentid'];
+    'affiliation', 'country', 'tel', 'ieeeid', 'studentid','isveg','teamsid'];
     public function __construct($data){
         if(isset($data['id'])){
             $this->id = $data['id'];
+        }
+        if(isset($data['teamsid'])){
+            $this->teamsid = $data['teamsid'];
+        }
+        if(isset($data['isveg'])){
+            $this->isveg = $data['isveg'];
         }
         if(isset($data['email'])){
             $this->email = $data['email'];
@@ -64,7 +72,7 @@ class Member{
                 $this->indent = 'student';
             }
         }
-        $this->complete = isset($data['name'])&&$data['name']!=''&&isset($data['affiliation'])&&$data['affiliation']!=''
+        $this->complete =isset($data['teamsid'])&&$data['teamsid']!=''&&isset($data['isveg'])&&$data['isveg']!=''&& isset($data['name'])&&$data['name']!=''&&isset($data['affiliation'])&&$data['affiliation']!=''
         &&isset($data['position'])&&$data['position']!=''&&isset($data['country'])&&$data['country']!=''&&isset($data['tel'])&&$data['tel']!='';
     }
     public function getTotalpaied(){

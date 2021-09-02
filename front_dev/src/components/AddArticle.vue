@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     onskip () {
-      this.$router.push('/MemberPage')
+      this.$router.push('/MemberPage/MemberPage/1/profile')
     },
     onPay () {
       var vm = this

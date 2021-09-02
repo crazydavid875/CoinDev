@@ -23,4 +23,8 @@
             echo $obj.' not found';
             exit();
         }
+        public static function SuccessWithoutExit($obj='request'){
+            http_response_code(200);
+            
+        }
     }

@@ -43,7 +43,7 @@ class PayItemRepo{
         }
     }
     
-    public function insert($recordid,$payitem){
+    public function insert($recordid,$payitem,$aid='NULL'){
         $paymode = $payitem->paymode;
         $page = $payitem->page;      
         $table = $this->table;
@@ -53,10 +53,11 @@ class PayItemRepo{
             $indentstr= "and indentid=
             (select id from indentify where name='$indent')";
         }
-         $query = "INSERT INTO $table
-        (`pid`, `rid`, `page`) 
+        
+        $query = "INSERT INTO $table
+        (`pid`, `rid`, `page`,aid) 
         VALUES (
-            (select id from paymode where name='$paymode' $indentstr ),'$recordid','$page')";
+            (select id from paymode where name='$paymode' $indentstr ),'$recordid','$page',$aid)";
         
         $isSuccess = SQL::Insert($query);
         if($isSuccess==-1){
@@ -76,6 +77,24 @@ class PayItemRepo{
         }
         $set = trim($set,',');
         $query = "UPDATE $table SET $set WHERE id='$id'";
+        
+        $isSuccess = SQL::Update($query);
+        if($isSuccess==-1){
+            Output::Error(SQL::getMsg());
+        }
+        else{
+            return SQL::getResult();
+        }
+    }
+    public function updatePids($rid,$hasArticle,$indent){
+        $table = $this->table;
+        $set = '';
+        if($hasArticle)$hasArticleName = 'has article';
+        else $hasArticleName = 'without article';
+        echo $query = "UPDATE $table SET pid=(
+            select id from paymode where name='$hasArticleName' 
+            and indentid=(select id from indentify where name='$indent')) WHERE rid='$rid' and 
+            pid<>(select id from paymode where name='extra page')";
         
         $isSuccess = SQL::Update($query);
         if($isSuccess==-1){

@@ -5,7 +5,7 @@
         <h2>Payment</h2>
       </div>
       <div class="row mb-3">
-        <label for="inputAmount" class="col-sm-2 col-form-label">Amount </label>
+        <label for="inputAmount" class="col-sm-2  text-end col-form-label">Amount </label>
         <div class="col-sm-10">
           <input
             class="form-control"
@@ -17,8 +17,8 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label for="inputReceipt" class="col-sm-2 col-form-label"
-          >Receipt (Invoice) Title <br/> (Option)
+        <label for="inputReceipt" class="col-sm-2 text-end col-form-label"
+          >Receipt Title (Option)
         </label>
         <div class="col-sm-10">
           <input
@@ -59,7 +59,6 @@ export default {
     TradeInfo: '',
     Version: '',
     MerchantID: '',
-    paytype: 'CREDIT',
     receipt: ''
   }),
   mounted () {
@@ -70,7 +69,6 @@ export default {
       var vm = this
       axios
         .post('/back/payment/getMPGRecord/' + this.$route.params.id, {
-          paytype: vm.paytype,
           receipt: vm.receipt
         })
         .then(res => {
@@ -118,5 +116,6 @@ export default {
 <style>
 .paymentpage {
   margin-top: 3rem;
+  height:100vh;
 }
 </style>

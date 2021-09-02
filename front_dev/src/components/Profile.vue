@@ -2,7 +2,7 @@
   <div>
     <div class="container profile">
       <div class="row mb-3">
-        <div class="col">
+        <div class="col-auto">
           <h3>
             Profile
           </h3>
@@ -30,48 +30,67 @@
         >
           Edit
         </button>
+
+        <a
+          v-if="alerttext == 'Registration Fee Unpaid'"
+          href="/MemberPage/3/payrecord"
+          class="btn btn-primary"
+        >
+          Pay
+        </a>
       </div>
-      <div class="row mb-3">
-        <label for="E-mail" class="col-sm-2 col-form-label">
+      <div class="row mb-2">
+        <label for="E-mail" class="col-sm-2 text-end col-form-label">
           E-mail
         </label>
-        <div class="col-5">
-          <span>{{ email }}</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-2">
-          payment status
-        </div>
-        <div class="col-5">
-          <span>{{ ispay ? 'paid' : 'outstanding' }}</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <label for="fullname" class="col-sm-2 col-form-label">
-          Full Name
+        <label class="col-sm-2 text-end col-form-label">
+          {{ email }}
         </label>
-        <div class="col-5">
-          <span v-if="!changeMode">
-            {{ name }}
-          </span>
+      </div>
+      <div class="row mb-3" v-if="changeMode">
+        <label for="firstname" class="col-sm-2  text-end col-form-label">
+          First Name
+        </label>
+        <div class="col-2">
           <input
-            v-else
-            id="fullname"
-            class="form-control"
+            id="firstname"
+            class="form-control text-start"
             type="text"
-            v-model="name"
+            v-model="fname"
+          />
+        </div>
+        <label for="lastname" class="col-sm-2  text-end col-form-label">
+          Last Name
+        </label>
+        <div class="col-4">
+          <input
+            id="lastname"
+            class="form-control  text-start"
+            type="text"
+            v-model="lname"
           />
         </div>
       </div>
+      <div class="row mb-3" v-else>
+        <label for="firstname" class="col-sm-2 text-end col-form-label">
+          Full Name
+        </label>
+        <div class="col">
+          <label
+            v-if="!changeMode"
+            class="col-sm-2 text-start col-form-label"
+            >{{ name }}</label
+          >
+        </div>
+      </div>
       <div class="row mb-3">
-        <label for="Position" class="col-sm-2 col-form-label">
+        <label class="col-sm-2  text-end col-form-label">
           Position
         </label>
         <div class="col-10">
-          <span v-if="!changeMode">
+          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
             {{ Position }}
-          </span>
+          </label>
           <div v-else>
             <div class="form-check form-check-inline">
               <input
@@ -93,7 +112,7 @@
                 value="Assoc. Prof."
                 v-model="Position"
               />
-              <label class="form-check-label" for="inlineRadio2"
+              <label class="form-check-label " for="inlineRadio2"
                 >Assoc. Prof.</label
               >
             </div>
@@ -106,7 +125,7 @@
                 value="Asst. Prof."
                 v-model="Position"
               />
-              <label class="form-check-label" for="inlineRadio3"
+              <label class="form-check-label " for="inlineRadio3"
                 >Asst. Prof.</label
               >
             </div>
@@ -147,13 +166,13 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label for="Affiliation" class="col-sm-2 col-form-label">
+        <label for="Affiliation" class="col-sm-2  text-end col-form-label">
           Affiliation
         </label>
         <div class="col-5">
-          <span v-if="!changeMode">
+          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
             {{ Affiliation }}
-          </span>
+          </label>
           <input
             v-else
             id="Affiliation"
@@ -164,39 +183,92 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label for="Country" class="col-sm-2 col-form-label">
+        <label for="Country" class="col-sm-2  text-end col-form-label">
           Country
         </label>
         <div class="col-5">
-          <span v-if="!changeMode">
+          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
             {{ Country }}
-          </span>
+          </label>
           <Counrtypicker v-else :Country.sync="Country"></Counrtypicker>
         </div>
       </div>
 
       <div class="row  mb-3">
-        <label for="Tel" class="col-sm-2 col-form-label">
+        <label for="Tel" class="col-sm-2  text-end col-form-label">
           Tel.
         </label>
 
         <div class="col-5">
-          <span v-if="!changeMode">
+          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
             {{ Tel }}
-          </span>
+          </label>
           <input
             v-else
             id="Tel"
             class="form-control"
-            type="text"
+            type="tel"
             v-model="Tel"
+            ref="tel"
           />
         </div>
       </div>
+      <div class="row  mb-3">
+        <label for="Tel" class="col-sm-2  text-end col-form-label">
+          Microsoft Teams ID
+        </label>
+
+        <div class="col-5">
+          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
+            {{ teamsid }}
+          </label>
+          <input
+            v-else
+            id="teamsid"
+            class="form-control"
+            type="text"
+            v-model="teamsid"
+          />
+        </div>
+      </div>
+      <div class="row  mb-3">
+        <label class="col-sm-2  text-end col-form-label">
+          Vegetarian
+        </label>
+        <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
+          {{ isveg === '1' ? 'yes' : isveg === '0' ? 'no' : '' }}
+        </label>
+
+        <div class="col-5" v-else>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="veg"
+              id="inlineRadio1"
+              v-model="isveg"
+              value="1"
+            />
+            <label class="form-check-label" for="inlineRadio1">yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="veg"
+              id="inlineRadio2"
+              v-model="isveg"
+              value="0"
+            />
+            <label class="form-check-label" for="inlineRadio2">no</label>
+          </div>
+        </div>
+      </div>
       <div class="row mb-3">
+        <div class="col-1"></div>
         <div class="col-5">
           <div v-if="!changeMode">
-            <div class="form-check form-switch">
+            <div class="form-check  form-switch">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -231,9 +303,7 @@
         </div>
       </div>
       <div v-if="!changeMode && IEEEMemberID != ''" class="row mb-3 ">
-        <div class="col-2">
-          <span class="col-sm-3 col-form-label">IEEE Member ID</span>
-        </div>
+        <span class="col-sm-2  text-end col-form-label">IEEE Member ID</span>
 
         <div class="col-5">
           <span>{{ IEEEMemberID }}</span>
@@ -244,7 +314,7 @@
         :class="'row mb-3 collapse ' + (IEEEMemberID != '' ? 'show' : '')"
         id="collapseExample"
       >
-        <label for="IEEEMemberID" class="col-sm-3 col-form-label"
+        <label for="IEEEMemberID" class="col-sm-2  text-end col-form-label"
           >IEEE Member ID</label
         >
         <div class="col-sm-5">
@@ -258,7 +328,8 @@
         </div>
       </div>
       <div class="row mb-3">
-        <div v-if="!changeMode">
+        <div class="col-1"></div>
+        <div class="col-5" v-if="!changeMode">
           <div class="form-check form-switch">
             <input
               class="form-check-input"
@@ -269,7 +340,7 @@
             /><label class="form-check-label" for="st"> Student</label>
           </div>
         </div>
-        <div v-else>
+        <div class="col-5" v-else>
           <div class="form-check form-switch">
             <label
               class="form-check-label"
@@ -290,7 +361,7 @@
         </div>
       </div>
       <div v-if="!changeMode && studentid != ''" class="row mb-3 ">
-        <div class="col-2">
+        <div class="col-sm-2  text-end">
           <span for="StudentID" class=" col-form-label">Student ID</span>
         </div>
         <div class="col-5">
@@ -302,7 +373,7 @@
         :class="'row mb-3 collapse ' + (studentid != '' ? 'show' : '')"
         id="collapsest"
       >
-        <label for="StudentID" class="col-sm-3 col-form-label"
+        <label for="StudentID" class="col-sm-2 text-end col-form-label"
           >Student ID</label
         >
         <div class="col-sm-5">
@@ -349,7 +420,11 @@ export default {
     indent: '',
     IEEEMemberID: '',
     complete: false,
-    payment: []
+    fname: '',
+    lname: '',
+    payment: [],
+    isveg: '',
+    teamsid: ''
   }),
   mounted () {
     this.onLoad()
@@ -363,6 +438,8 @@ export default {
         .then(res => {
           var data = res.data
           vm.name = data.name
+          vm.fname = data.name.split(' ')[0]
+          vm.lname = data.name.split(' ')[1]
           vm.email = data.email
           vm.ispay =
             data.totalpaied >= data.totalUnPay && data.paymentRecords.length > 0
@@ -376,12 +453,17 @@ export default {
           vm.IEEEMemberID = data.ieeeid
           vm.isIEEE = vm.IEEEMemberID !== ''
           vm.isStudent = vm.studentid !== ''
-          vm.complete = data.complete
+          vm.complete = data.complete && vm.fname !== '' && vm.lname !== ''
+          vm.isveg = data.isveg
+          vm.teamsid = data.teamsid
           // Perform Success Action push to memberpage
         })
         .catch(error => {
           if (error.response.status === 400) {
             console.log(error.response.log)
+          }
+          if (error.response.status === 404) {
+            this.$router.push('/')
           }
           // error.response.status Check status code
         })
@@ -393,8 +475,18 @@ export default {
       this.changeMode = true
     },
     onSave () {
+      if (this.isStudent && this.studentid === '') {
+        alert('Student ID ERROR')
+        return
+      }
+      if (this.isIEEE && this.IEEEMemberID === '') {
+        alert('IEEE Member ID ERROR')
+        return
+      }
       if (!this.isStudent) this.studentid = ''
       if (!this.isIEEE) this.IEEEMemberID = ''
+      if (this.Country === '') this.Country = 'Taiwan'
+      this.name = this.fname + ' ' + this.lname
       axios
         .patch('/back/account', {
           name: this.name,
@@ -403,10 +495,12 @@ export default {
           country: this.Country,
           tel: this.Tel,
           studentid: this.studentid,
-          ieeeid: this.IEEEMemberID
+          ieeeid: this.IEEEMemberID,
+          isveg: this.isveg,
+          teamsid: this.teamsid
         })
         .then(res => {
-          this.$router.go()
+          // this.$router.go()
           // Perform Success Action push to memberpage
         })
         .catch(error => {
@@ -418,6 +512,8 @@ export default {
           // error.response.status Check status code
         })
         .finally(() => {
+          this.changeMode = false
+          this.onLoad()
           // Perform action in always
         })
     }
@@ -428,7 +524,7 @@ export default {
     },
     alerttext () {
       if (!this.complete) return 'Please complete your Profile'
-      else if (!this.ispay) return 'Please pay for the account'
+      else if (!this.ispay) return 'Registration Fee Unpaid'
       else return 'Success'
     }
   }
@@ -438,5 +534,7 @@ export default {
 <style>
 .profile {
   text-align: left;
+  padding-bottom: 2rem;
+  position: relative;
 }
 </style>

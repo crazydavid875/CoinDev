@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="starpag">
     <nav>
       <div class="nav nav-tabs  justify-content-center" id="nav-tab" role="tablist">
         <button
@@ -50,5 +50,8 @@ export default {
 .mymembertab {
   margin-top: 1rem;
   text-align: center;
+}
+.starpag{
+ height:100vh;
 }
 </style>

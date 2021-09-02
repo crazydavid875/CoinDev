@@ -10,7 +10,7 @@
         <div class="col">
           <form id="loginForm">
             <div class="row mb-3">
-              <label for="inputEmail3" class="col-sm-2 col-form-label"
+              <label for="inputEmail3" class="col-sm-2  text-end col-form-label"
                 >Email</label
               >
               <div class="col-sm-10">
@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="row mb-3">
-              <label for="inputPassword3" class="col-sm-2 col-form-label"
+              <label for="inputPassword3" class="col-sm-2  text-end col-form-label"
                 >Password</label
               >
               <div class="col-sm-10">
@@ -65,7 +65,7 @@ export default {
         })
         .then(res => {
           console.log(res)
-          vm.$router.push('/MemberPage')
+          vm.$router.push('/MemberPage/1/profile')
           // Perform Success Action push to memberpage
         })
         .catch(error => {

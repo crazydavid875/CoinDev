@@ -6,7 +6,9 @@ class ArticleRepo{
     }
     public function findAll($uid){
         $table = $this->table;
-        $isSuccess = SQL::Select("SELECT * FROM $table WHERE uid='$uid'");
+        $isSuccess = SQL::Select("SELECT DISTINCT  article.*,record.paytime   
+        FROM article LEFT outer JOIN (paymentItem as item,paymentrecord as record) 
+        on (item.aid = article.id  and item.rid=record.id) WHERE article.uid='$uid'");
         if($isSuccess==-1){
             Output::Error(SQL::getMsg());
         }
@@ -21,7 +23,9 @@ class ArticleRepo{
     }
     public function find($id){
         $table = $this->table;
-        $isSuccess = SQL::Select("SELECT * FROM $table WHERE id='$id'");
+        $isSuccess = SQL::Select("SELECT DISTINCT  article.*,record.paytime 
+        FROM article LEFT outer JOIN (paymentItem as item,paymentrecord as record) 
+        on (item.aid = article.id  and item.rid=record.id) WHERE article.id='$id'");
         if($isSuccess==-1){
             Output::Error(SQL::getMsg());
         }
@@ -74,7 +78,17 @@ class ArticleRepo{
             return SQL::getResult();
         }
     }
-    //public function delete($id){
-
-    //}
+    public function delete($id){
+        $table = $this->table;
+        
+        $query = "DELETE FROM $table WHERE id='$id'";
+        
+        $isSuccess = SQL::Delete($query);
+        if($isSuccess==-1){
+            Output::Error(SQL::getMsg());
+        }
+        else{
+            return SQL::getResult();
+        }
+    }
 }

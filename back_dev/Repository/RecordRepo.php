@@ -41,11 +41,11 @@ class RecordRepo{
         $createtime = $record->createtime; 
         $des = $record->des;              
         $receiptitle = $record->receiptitle;         
-
+        $id =  $record->createtime;
         $table = $this->table;
         $query = "INSERT INTO $table
-        (  `createtime`, `uid`, `des`, `receiptitle`) 
-        VALUES ('$createtime','$uid','$des','$receiptitle')";
+        ( id, `createtime`, `uid`, `des`, `receiptitle`) 
+        VALUES ('$id ','$createtime','$uid','$des','$receiptitle')";
         
         $isSuccess = SQL::Insert($query);
         if($isSuccess==-1){
