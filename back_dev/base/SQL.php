@@ -4,7 +4,7 @@ class SQL{
     private static $msg;
     private static $result;
     public static function Init(){
-        $conn_IP = "db";
+        $conn_IP = "localhost:33010";
         $conn_userName = "root";
         $conn_passwd = "12345";
         $conn_db = "payment";

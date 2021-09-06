@@ -161,7 +161,7 @@
               class="btn btn-outline-primary"
               @click="newArticle()"
             >
-              New
+              Add
             </button>
           </td>
         </tr>

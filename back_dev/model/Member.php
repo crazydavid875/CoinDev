@@ -10,7 +10,9 @@ class Member{
     public $country = '';
     public $tel = '';                   
     public $ieeeid = '';
+    public $isieee = false;
     public $studentid = '';
+    public $isstudent =false;
     public $indent ;
     public $articles = [];
     public $paymentRecords = [];
@@ -56,21 +58,22 @@ class Member{
         //if(isset($data['indentid'])){
         //    $this->indentid = $data['indentid'];
         //}
-        if(isset($data['indent'])){
-            $this->indent = $data['indent'];
-        }
-        else{
-            $this->indent = 'non ieee member';  
-        }
+        
         if($data['indent']!='root'){
             if(isset($data['ieeeid'])&&$data['ieeeid']!=''){
                 $this->ieeeid = $data['ieeeid'];
                 $this->indent = 'ieee member';
+                $this->isieee = true;
+            }
+            else{
+                $this->indent = 'non ieee member';  
             }
             if(isset($data['studentid'])&&$data['studentid']!=''){
                 $this->studentid = $data['studentid'];
                 $this->indent = 'student';
+                $this->isstudent = true;
             }
+            
         }
         $this->complete =isset($data['teamsid'])&&$data['teamsid']!=''&&isset($data['isveg'])&&$data['isveg']!=''&& isset($data['name'])&&$data['name']!=''&&isset($data['affiliation'])&&$data['affiliation']!=''
         &&isset($data['position'])&&$data['position']!=''&&isset($data['country'])&&$data['country']!=''&&isset($data['tel'])&&$data['tel']!='';

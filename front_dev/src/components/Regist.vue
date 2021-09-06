@@ -30,7 +30,7 @@
                   @click="onSendCode()"
                   class="btn btn-primary"
                   data-bs-toggle="collapse"
-                  data-bs-target="#collapseExample"
+                  :data-bs-target="onsendemail"
                   aria-expanded="false"
                   aria-controls="collapseExample"
                 >
@@ -39,7 +39,9 @@
               </div>
             </div>
             <div class="row mb-3 collapse" :id="hiddenclass">
-              <label for="inputverifycode" class="col-sm-2  text-end col-form-label"
+              <label
+                for="inputverifycode"
+                class="col-sm-2  text-end col-form-label"
                 >Verification code</label
               >
               <div class="col-sm-2">
@@ -53,9 +55,12 @@
                 />
                 <div class="invalid-feedback">{{ verifycodeVoildtext }}</div>
               </div>
+              <div class="col-sm-5 text-start">{{ leaveTimeout }}</div>
             </div>
             <div class="row mb-3">
-              <label for="inputPassword3" class="col-sm-2  text-end col-form-label"
+              <label
+                for="inputPassword3"
+                class="col-sm-2  text-end col-form-label"
                 >Password</label
               >
               <div class="col-sm-10">
@@ -75,7 +80,9 @@
               </div>
             </div>
             <div class="row mb-3">
-              <label for="inputPassword4" class="col-sm-2  text-end col-form-label"
+              <label
+                for="inputPassword4"
+                class="col-sm-2  text-end col-form-label"
                 >Password confirm</label
               >
               <div class="col-sm-10">
@@ -111,7 +118,10 @@ export default {
     verifycodeInvalidText: '',
     verifycodeInvalid: true,
     verifycodeVoildtext: 'Please input verification code',
-    verifydisable: false
+    verifydisable: false,
+    timeout: -1,
+    timestamp: 0,
+    onsendemail: '#collapseExample'
   }),
   methods: {
     onregist () {
@@ -144,15 +154,19 @@ export default {
           // Perform action in always
         })
     },
+    getNow: function () {
+      this.timestamp = Math.floor(Date.now() / 1000)
+    },
     onSendCode () {
       var vm = this
+      this.onsendemail = ''
       axios
         .post('/back/account/SendVerifyCode', {
           email: this.email.val
         })
         .then(res => {
           console.log(res)
-          vm.hiddenclass = ''
+          vm.timeout = parseInt(res.data.timeout)
           // Perform Success Action push to memberpage
         })
         .catch(error => {
@@ -169,7 +183,16 @@ export default {
         })
     }
   },
+  created () {
+    setInterval(this.getNow, 1000)
+  },
   computed: {
+    leaveTimeout () {
+      var counter = this.timeout - this.timestamp
+      if (this.timeout === -1) return ''
+      else if (counter <= 0) return 'please resend the Verification code'
+      else return 'timeout:' + counter
+    },
     EmailInvalidText () {
       return this.EmailInvalid ? ' is-invalid' : ''
     },

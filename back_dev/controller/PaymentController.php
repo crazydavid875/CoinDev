@@ -50,6 +50,7 @@ class PaymenyController{
         
         
         foreach($records as $record){
+            
             if(!$record->getIspay()){
                 $payItems = $payItemRepo->findAll($record->id);
                 foreach($payItems as $payitem){
@@ -58,7 +59,12 @@ class PaymenyController{
                 $recordRepo->delete($record->id);
             }
         }
-        
+    
+        $newitems =  $payItemRepo->findAll($insertid);
+        if(count($newitems)<=0){
+            $recordRepo->delete($insertid);
+            Output::Error('you have nothing to pay');
+        }
         Output::Success('{"id":"'.$insertid.'"}');
         
     }
@@ -109,7 +115,7 @@ class PaymenyController{
                 )
             );
             $context = stream_context_create($opts);
-            $result = file_get_contents('https://script.google.com/macros/s/AKfycbyqPotkZmEVQUhrGSFU__UxK79p-acvd5NjRQ5UG76DFQ_uIK1imQEQ1x_dEW_aNJPd/exec', false, $context);
+            $result = file_get_contents('https://script.google.com/macros/s/AKfycbyktp1CtC_NT6NNegZTDuA0AuVrvswTcZIU_Yj25RcnBKsCxt-3a8X-qrmnVnfPS59V/exec', false, $context);
             Output::Success($result);
         }
         else{

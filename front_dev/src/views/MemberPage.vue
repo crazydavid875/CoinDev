@@ -41,6 +41,9 @@
               to="/MemberPage/3/payrecord"
               >Payment Record</router-link
             >
+            <a class="nav-link" @click.prevent="onlogout()" href="#"
+              ><span >Logout</span></a
+            >
           </div>
         </div>
       </div>
@@ -54,7 +57,28 @@
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+export default {
+  methods: {
+    onlogout () {
+      axios
+        .post('/back/account/logout')
+        .then(res => {
+          this.$router.push('/')
+          // Perform Success Action push to memberpage
+        })
+        .catch(error => {
+          if (error.response.status === 400) {
+            console.log(error.response.log)
+          }
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          // Perform action in always
+        })
+    }
+  }
+}
 </script>
 
 <style>

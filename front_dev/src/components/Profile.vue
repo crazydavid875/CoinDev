@@ -43,7 +43,7 @@
         <label for="E-mail" class="col-sm-2 text-end col-form-label">
           E-mail
         </label>
-        <label class="col-sm-2 text-end col-form-label">
+        <label class="col-sm-2 text-start col-form-label">
           {{ email }}
         </label>
       </div>
@@ -388,14 +388,14 @@
       </div>
       <div class="row mb-3 ">
         <div class="col-sm-2 text-end">
-        <button
-          v-if="changeMode"
-          type="button"
-          class="  btn btn-primary"
-          @click="onSave()"
-        >
-          Save
-        </button>
+          <button
+            v-if="changeMode"
+            type="button"
+            class="  btn btn-primary"
+            @click="onSave()"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
@@ -446,7 +446,8 @@ export default {
           vm.lname = data.name.split(' ')[1]
           vm.email = data.email
           vm.ispay =
-            data.totalpaied >= data.totalUnPay && data.paymentRecords.length > 0
+            data.totalUnPay <= 0 &&
+            data.totalpaied > 0
           vm.payment = data.paymentRecords
           vm.Position = data.position
           vm.Affiliation = data.affiliation
@@ -458,7 +459,7 @@ export default {
           vm.isIEEE = vm.IEEEMemberID !== ''
           vm.isStudent = vm.studentid !== ''
           vm.complete = data.complete && vm.fname !== '' && vm.lname !== ''
-          vm.isveg = data.isveg
+          vm.isveg = data.isveg === '' ? 0 : data.isveg
           vm.teamsid = data.teamsid
           // Perform Success Action push to memberpage
         })
