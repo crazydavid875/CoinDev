@@ -303,19 +303,20 @@
         </div>
       </div>
       <div v-if="!changeMode && IEEEMemberID != ''" class="row mb-3 ">
-        <span class="col-sm-2  text-end col-form-label">IEEE Member ID</span>
-
+        <div class="col-sm-2  text-end">
+        <span class=" col-form-label">IEEE Member Number</span>
+        </div>
         <div class="col-5">
           <span>{{ IEEEMemberID }}</span>
         </div>
       </div>
       <div
         v-else
-        :class="'row mb-3 collapse ' + (IEEEMemberID != '' ? 'show' : '')"
+        :class="'row mb-3 collapse ' + (isIEEE ? 'show' : '')"
         id="collapseExample"
       >
         <label for="IEEEMemberID" class="col-sm-2  text-end col-form-label"
-          >IEEE Member ID</label
+          >IEEE Member Number</label
         >
         <div class="col-sm-5">
           <input
@@ -362,7 +363,7 @@
       </div>
       <div v-if="!changeMode && studentid != ''" class="row mb-3 ">
         <div class="col-sm-2  text-end">
-          <span for="StudentID" class=" col-form-label">Student ID</span>
+          <span for="StudentID" class=" col-form-label">Student ID Number</span>
         </div>
         <div class="col-5">
           <span>{{ studentid }}</span>
@@ -370,11 +371,11 @@
       </div>
       <div
         v-else
-        :class="'row mb-3 collapse ' + (studentid != '' ? 'show' : '')"
+        :class="'row mb-3 collapse ' + (isStudent ? 'show' : '')"
         id="collapsest"
       >
         <label for="StudentID" class="col-sm-2 text-end col-form-label"
-          >Student ID</label
+          >Student ID Number</label
         >
         <div class="col-sm-5">
           <input

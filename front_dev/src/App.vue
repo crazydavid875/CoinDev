@@ -3,6 +3,9 @@
     <div class="demo-bg demo-content text-center">
       <img id="topimg" src="./assets/top11.png" />
       <router-view />
+      <div class="mt-auto text-white-50">
+        <span>E-mail : wocc2021@gmail.com</span>
+      </div>
     </div>
   </div>
 </template>
