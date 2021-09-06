@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： db:3306
--- 產生時間： 2021 年 09 月 02 日 21:33
+-- 產生時間： 2021 年 09 月 06 日 13:47
 -- 伺服器版本： 8.0.25
 -- PHP 版本： 7.4.20
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- 資料庫: `payment`
 --
-CREATE DATABASE IF NOT EXISTS `payment` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `payment`;
 
 -- --------------------------------------------------------
 
@@ -111,8 +109,11 @@ INSERT INTO `paymode` (`id`, `name`, `amt`, `indentid`) VALUES
 (3, 'without article', 1500, 2),
 (4, 'without article', 3000, 1),
 (5, 'has article', 7500, 1),
-(6, 'has article', 3000, 2),
-(7, 'extra page', 4200, NULL);
+(6, 'has article', 8500, 2),
+(7, 'extra page', 4200, NULL),
+(8, 'has paid base', -1500, 2),
+(9, 'has paid base', -3000, 0),
+(10, 'has paid base', -3000, 1);
 
 -- --------------------------------------------------------
 
@@ -192,7 +193,7 @@ ALTER TABLE `user`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `article`
 --
 ALTER TABLE `article`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `indentify`
@@ -204,25 +205,25 @@ ALTER TABLE `indentify`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `paymentItem`
 --
 ALTER TABLE `paymentItem`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=441;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=661;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `paymentrecord`
 --
 ALTER TABLE `paymentrecord`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1630618055;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1630620674;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `paymode`
 --
 ALTER TABLE `paymode`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- 已傾印資料表的限制式
