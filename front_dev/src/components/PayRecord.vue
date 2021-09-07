@@ -7,7 +7,7 @@
       <thead>
         <tr>
           <td>#</td>
-          <td>Action</td>
+          <td>Record ID Number</td>
           <td>CreateTime</td>
           <td>Payment</td>
           <td>Total</td>
@@ -17,7 +17,7 @@
       <tbody>
         <tr v-for="(item, index) in datas" :key="'d' + index">
           <td>{{ index + 1 }}</td>
-          <td>{{ item.des }}</td>
+          <td>{{ item.id }}</td>
           <td>{{ item.createtimestr }}</td>
           <td>{{ item.paytime == null ? 'unpaid' : 'paid' }}</td>
           <td>{{ item.total }} NTD</td>
