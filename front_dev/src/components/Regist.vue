@@ -190,8 +190,16 @@ export default {
     leaveTimeout () {
       var counter = this.timeout - this.timestamp
       if (this.timeout === -1) return ''
-      else if (counter <= 0) return 'please resend the Verification code'
-      else return 'timeout:' + counter
+      else if (counter <= 0) {
+        return 'please resend the Verification code'
+      } else {
+        return (
+          'timeout: ' +
+          new Date(counter * 1000).getMinutes() +
+          ':' +
+          new Date(counter * 1000).getSeconds()
+        )
+      }
     },
     EmailInvalidText () {
       return this.EmailInvalid ? ' is-invalid' : ''

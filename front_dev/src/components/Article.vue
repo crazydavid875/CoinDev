@@ -34,7 +34,7 @@
                 class="form-control"
                 type="text"
                 v-model="item.auth"
-                placeholder="xxx, xxx, xxx"
+                placeholder="John Smith, Mary Amit, Roy Steward"
               />
             </td>
             <td>
@@ -82,7 +82,7 @@
                 class="form-control"
                 type="text"
                 v-model="item.auth"
-                placeholder="xxx, xxx, xxx"
+                placeholder="John Smith, Mary Amit, Roy Steward"
               />
             </td>
             <td>
@@ -135,7 +135,7 @@
               class="form-control"
               type="text"
               v-model="newAuth"
-              placeholder="xxx, xxx, xxx"
+              placeholder="John Smith, Mary Amit, Roy Steward"
             />
           </td>
           <td>

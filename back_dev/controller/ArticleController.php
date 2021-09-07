@@ -55,7 +55,7 @@ class ArticleController{
         }
         //new a record and item
         
-        $des = $article->title.",".($member->isieee?'ieee member':'non ieee member');
+        $des = $article->title.", ".($member->isieee?'ieee member':'non ieee member');
         $newRecord = new Record(array('createtime'=>time(),'des'=>$des));
         $recordid = $recordRepo->insert($uid,$newRecord);
         $payitem = new PayItem(array(
@@ -146,7 +146,7 @@ class ArticleController{
                 }
             }
             //if there have no record,add a empty record for non author
-            $newRecord = new Record(array('createtime'=>time(),'des'=>'non author,'.($member->isstudent=='student'?'student':'non student')));
+            $newRecord = new Record(array('createtime'=>time(),'des'=>'non author, '.($member->isstudent=='student'?'student':'non student')));
             
             $insertid = $recordRepo->insert($uid,$newRecord);
             $item = new PayItem(array(

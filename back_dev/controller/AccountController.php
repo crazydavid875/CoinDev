@@ -61,11 +61,11 @@ class AccountController{
                     $hasArticle = count($member->articles)>0;
                     $indent = $hasArticle?($member->isieee?'ieee member':'non ieee member'):($member->isstudent?'student':'non ieee member');
                     $payItemRepo->updatePids($record->id,$hasArticle,$indent);
-                    $splitrecordDes = explode(',',$record->des);
+                    $splitrecordDes = explode(', ',$record->des);
                     
                     if(count($splitrecordDes)>=2){
                         $indentstr = $hasArticle?($member->isieee?'ieee member':'non ieee member'):($member->isstudent?'student':'non student');
-                        $str = $splitrecordDes[0].','.($indentstr);
+                        $str = $splitrecordDes[0].', '.($indentstr);
                         $recordRepo->update($record->id,array('des'=>$str ));
                     }
                 }
@@ -108,7 +108,7 @@ class AccountController{
         $data = Input::getJsonData();
         $email = $data['email'];
         $code = $this->getHash();
-        $timeout = time()+50;
+        $timeout = time()+600;
         Input::setSession("EmailCode",$code);
         Input::setSession("EmailCodeTimeout",$timeout );
         $postdata = http_build_query(

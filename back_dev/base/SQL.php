@@ -5,8 +5,8 @@ class SQL{
     private static $result;
     public static function Init(){
         $conn_IP = "localhost:33010";
-        $conn_userName = "root";
-        $conn_passwd = "12345";
+        $conn_userName = "maskertim";
+        $conn_passwd = "aclab1226";
         $conn_db = "payment";
         SQL::$mysql = new mysqli($conn_IP,$conn_userName,$conn_passwd,$conn_db);
         
