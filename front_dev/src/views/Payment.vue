@@ -34,7 +34,7 @@
         id="newebpay"
         name="Newebpay"
         method="post"
-        action="https://ccore.newebpay.com/MPG/mpg_gateway"
+        action="https://core.newebpay.com/MPG/mpg_gateway"
         ref="form"
       >
         <input type="hidden" name="TradeSha" readonly :value="TradeSha" />
