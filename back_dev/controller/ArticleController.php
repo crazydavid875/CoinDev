@@ -55,7 +55,7 @@ class ArticleController{
         }
         //new a record and item
         
-        $des = $article->title.", ".($member->isieee?'ieee member':'non ieee member');
+        $des = $article->paperid.", ".($member->isieee?'ieee member':'non ieee member');
         $newRecord = new Record(array('createtime'=>time(),'des'=>$des));
         $recordid = $recordRepo->insert($uid,$newRecord);
         $payitem = new PayItem(array(

@@ -43,7 +43,7 @@ class AccountController{
         
         $records = $member->paymentRecords;
         if(count($records)==0){
-            $newRecord = new Record(array('createtime'=>time(),'des'=>'non author,'.($member->isstudent=='student'?'student':'non student')));
+            $newRecord = new Record(array('createtime'=>time(),'des'=>'non author, '.($member->isstudent=='student'?'student':'non student')));
             $insertid = $recordRepo->insert($uid,$newRecord);
             $item = new PayItem(array(
                 'paymode'=>"without article",
