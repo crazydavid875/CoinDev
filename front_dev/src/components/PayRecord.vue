@@ -11,6 +11,7 @@
           <td>CreateTime</td>
           <td>Payment</td>
           <td>Total</td>
+          <td>Receipt</td>
           <td></td>
         </tr>
       </thead>
@@ -21,6 +22,7 @@
           <td>{{ item.createtimestr }}</td>
           <td>{{ item.paytime == null ? 'unpaid' : 'paid' }}</td>
           <td>{{ item.total }} NTD</td>
+          <td>{{ item.receiptitle }}</td>
           <td>
             <button
               v-if="item.paytime == null"

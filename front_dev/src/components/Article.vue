@@ -165,16 +165,11 @@
             </button>
           </td>
         </tr>
-        
       </tbody>
     </table>
-    <button
-              type="buttons"
-              class="btn btn-primary"
-              @click="gotopay()"
-            >
-              Pay
-            </button>
+    <button type="buttons" class="btn btn-primary" @click="gotopay()">
+      Pay
+    </button>
   </div>
 </template>
 
