@@ -37,7 +37,7 @@
     <button
       v-if="nopaycount > 0"
       @click="goPayAll()"
-      class="btn  btn-outline-light"
+      class="btn  btn-primary"
       type="submit"
     >
       Pay

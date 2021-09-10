@@ -165,8 +165,16 @@
             </button>
           </td>
         </tr>
+        
       </tbody>
     </table>
+    <button
+              type="buttons"
+              class="btn btn-primary"
+              @click="gotopay()"
+            >
+              Pay
+            </button>
   </div>
 </template>
 
@@ -184,6 +192,9 @@ export default {
     this.getarticle()
   },
   methods: {
+    gotopay () {
+      this.$router.push('/MemberPage/3/payrecord')
+    },
     getarticle () {
       var vm = this
       axios

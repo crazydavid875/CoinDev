@@ -32,11 +32,19 @@
         </button>
 
         <a
-          v-if="alerttext == 'Registration Fee Unpaid'"
+          v-if="alerttext == 'You can...'"
           @click="gotopay()"
           class="btn btn-primary"
         >
-          Pay
+          Pay without paper
+        </a>
+        <span v-if="alerttext == 'You can...'" > or </span>
+        <a
+          v-if="alerttext == 'You can...'"
+          @click="gotopaper()"
+          class="btn btn-primary"
+        >
+          Add paper(s)
         </a>
       </div>
       <div class="row mb-2">
@@ -304,7 +312,7 @@
       </div>
       <div v-if="!changeMode && IEEEMemberID != ''" class="row mb-3 ">
         <div class="col-sm-2  text-end">
-        <span class=" col-form-label">IEEE Member Number</span>
+          <span class=" col-form-label">IEEE Member Number</span>
         </div>
         <div class="col-5">
           <span>{{ IEEEMemberID }}</span>
@@ -446,9 +454,7 @@ export default {
           vm.fname = data.name.split(' ')[0]
           vm.lname = data.name.split(' ')[1]
           vm.email = data.email
-          vm.ispay =
-            data.totalUnPay <= 0 &&
-            data.totalpaied > 0
+          vm.ispay = data.totalUnPay <= 0 && data.totalpaied > 0
           vm.payment = data.paymentRecords
           vm.Position = data.position
           vm.Affiliation = data.affiliation
@@ -525,6 +531,9 @@ export default {
     },
     gotopay () {
       this.$router.push('/MemberPage/3/payrecord')
+    },
+    gotopaper () {
+      this.$router.push('/MemberPage/2/paper')
     }
   },
   computed: {
@@ -533,7 +542,7 @@ export default {
     },
     alerttext () {
       if (!this.complete) return 'Please complete your Profile'
-      else if (!this.ispay) return 'Registration Fee Unpaid'
+      else if (!this.ispay) return 'You can...'
       else return 'Success'
     }
   }
