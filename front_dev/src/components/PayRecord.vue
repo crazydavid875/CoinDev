@@ -6,13 +6,13 @@
     <table class="table  table-light  table-striped ">
       <thead>
         <tr>
-          <td>#</td>
-          <td>Record ID Number</td>
-          <td>CreateTime</td>
-          <td>Payment</td>
-          <td>Total</td>
-          <td>Receipt</td>
-          <td></td>
+          <th style="width:5%">#</th>
+          <th  style="width:15%" >Record ID Number</th>
+          <th  style="width:15%" >CreateTime</th>
+          <th style="width:5%" >Payment</th>
+          <th  style="width:10%" >Total</th>
+          <th  style="width:50%" >Receipt</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -106,6 +106,8 @@ export default {
 
 <style>
 .payrec {
-  height: 100vh;
+  height: auto;
+  padding-bottom: 3rem;
+    min-height: 350px;
 }
 </style>

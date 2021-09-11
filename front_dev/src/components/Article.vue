@@ -7,12 +7,12 @@
     <table class="table  table-light table-striped table-hover">
       <thead>
         <tr>
-          <td>#</td>
-          <td>Title</td>
-          <td>Author(s)</td>
-          <td>Paper ID</td>
-          <td>Pages</td>
-          <td></td>
+          <th>#</th>
+          <th>Title</th>
+          <th>Author(s)</th>
+          <th style="width:10%">Paper ID</th>
+          <th style="width:8%">Pages</th>
+          <th style="width:10%"></th>
         </tr>
       </thead>
       <tbody>
@@ -316,6 +316,8 @@ export default {
 
 <style>
 .pap {
-  height: 100vh;
+  height: auto;
+  min-height: 350px;
+  padding-bottom: 3rem;
 }
 </style>

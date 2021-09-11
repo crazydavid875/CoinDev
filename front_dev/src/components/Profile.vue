@@ -16,7 +16,7 @@
       <div
         :class="
           'alert ' +
-            (alerttext == 'Success' ? ' alert-success' : ' alert-danger')
+            (alerttext == 'No Payment Due' ? ' alert-success' : ' alert-danger')
         "
         role="alert"
       >
@@ -86,7 +86,7 @@
         <div class="col">
           <label
             v-if="!changeMode"
-            class="col-sm-2 text-start col-form-label"
+            class=" text-start col-form-label"
             >{{ name }}</label
           >
         </div>
@@ -96,7 +96,7 @@
           Position
         </label>
         <div class="col-10">
-          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
+          <label v-if="!changeMode" class="text-start col-form-label">
             {{ Position }}
           </label>
           <div v-else>
@@ -178,7 +178,7 @@
           Affiliation
         </label>
         <div class="col-5">
-          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
+          <label v-if="!changeMode" class="text-start col-form-label">
             {{ Affiliation }}
           </label>
           <input
@@ -195,7 +195,7 @@
           Country
         </label>
         <div class="col-5">
-          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
+          <label v-if="!changeMode" class=" text-start col-form-label">
             {{ Country }}
           </label>
           <Counrtypicker v-else :Country.sync="Country"></Counrtypicker>
@@ -208,7 +208,7 @@
         </label>
 
         <div class="col-5">
-          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
+          <label v-if="!changeMode" class="text-start col-form-label">
             {{ Tel }}
           </label>
           <input
@@ -227,7 +227,7 @@
         </label>
 
         <div class="col-5">
-          <label v-if="!changeMode" class="col-sm-2 text-start col-form-label">
+          <label v-if="!changeMode" class="text-start col-form-label">
             {{ teamsid }}
           </label>
           <input
@@ -543,7 +543,7 @@ export default {
     alerttext () {
       if (!this.complete) return 'Please complete your Profile'
       else if (!this.ispay) return 'You can...'
-      else return 'Success'
+      else return 'No Payment Due'
     }
   }
 }

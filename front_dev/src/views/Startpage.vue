@@ -2,6 +2,7 @@
   <div class="starpag">
     <nav>
       <div class="nav nav-tabs  justify-content-center" id="nav-tab" role="tablist">
+        <h3 class="regtag">Registration</h3>
         <button
           class="nav-link active"
           id="nav-home-tab"
@@ -52,6 +53,12 @@ export default {
   text-align: center;
 }
 .starpag{
- height:100vh;
+  height:auto;
+ min-height:60vh;
+}
+.regtag{
+  text-align: left !important;
+  position: absolute;
+  left: 1rem;
 }
 </style>

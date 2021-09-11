@@ -23,6 +23,7 @@ class PaymenyController{
         $member = $memberRepo->find($uid);
         $email = $member->email;
         $record = $this->recordRepo->find($id);
+        $this->recordRepo->update($id,array("receiptitle"=>$data["receipt"]));
         $payitemRepo = new PayItemRepo();
         $record->items = $payitemRepo->findAll($record->id);
         
