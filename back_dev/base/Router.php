@@ -134,7 +134,9 @@ class Router{
                     $record->getMPGRecord(Input::getPerms(2));
                     break;
                 case 'payNotify':
-                    $record->payNotify();
+                    $receipt = new ReceiptController();
+                    $id = $record->payNotify();
+                    $receipt->createRecepit($id);
                     break;
                 default:
                     Output::NotFound();
