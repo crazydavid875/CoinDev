@@ -12,6 +12,7 @@ import articleList from '../components/adminArticleList.vue'
 import profile from '../components/Profile.vue'
 import article from '../components/Article.vue'
 import payrecord from '../components/PayRecord.vue'
+import receipte from '../components/Receipte.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -36,6 +37,10 @@ const routes = [
       {
         path: 'payrecord',
         component: payrecord
+      },
+      {
+        path: 'receipte',
+        component: receipte
       }
     ]
   },

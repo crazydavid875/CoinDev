@@ -143,9 +143,6 @@ class PaymenyController{
         $this->recordRepo->update($id,array('paytime'=>$paytime));
         Output::Success();
     }
-    function GetPDFPayRecord($sql){
-       //pdf
-    }
     
     
 }

@@ -41,6 +41,13 @@
               to="/MemberPage/3/payrecord"
               >Payment Record</router-link
             >
+            <router-link
+              :class="
+                'nav-link ' + (this.$route.params.act == '4' ? 'active' : '')
+              "
+              to="/MemberPage/4/receipte"
+              >Receipt(s)</router-link
+            >
             <a class="nav-link" @click.prevent="onlogout()" href="#"
               ><span >Logout</span></a
             >

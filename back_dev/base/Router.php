@@ -12,6 +12,12 @@ class Router{
         else if($service == 'payment'){
             $this->Record($method,$action);
         }
+        else if($service == 'admin'){
+            $this->Admin($method,$action);
+        }
+        else if($service == 'receipt'){
+            $this->Receipt($method,$action);
+        }
         else{
             Output::NotFound();
         }
@@ -150,6 +156,99 @@ class Router{
         }
         else{
             Output::NotFound();
+        }
+    }
+    private function Receipt($method,$action){
+            $receipt = new ReceiptController();
+            
+            if($method == 'POST'){
+                switch ($action) {
+                    case 'createAll':
+                        $this->account->isLogin();
+                        $id = Input::getSession("USERID");
+                        $receipt->createRecepit($id);
+                        break;
+                    default:
+                        Output::NotFound();
+                        break;
+                }
+            }   
+            else if($method=='GET'){
+                switch ($action) {
+                    case 'list':
+                        $this->account->isLogin();
+                        $receipt->ListRecepit();
+                        break;
+                    case 'pdf':
+                        $this->account->isLogin();
+                        $receipt->GetRecepitPDF(Input::getPerms(2));
+                        break;
+                    default:
+                        Output::NotFound();
+                        break;
+                }
+            }
+            else{
+                Output::NotFound();
+            }
+    }
+    private function Admin($method,$action){
+        $admin = new AdminController();
+        $receipt = new ReceiptController();
+        if($method == 'GET'){
+            switch ($action) {
+                case "":
+                    $admin->isLogin();
+                    $admin->getAdminPage();
+                    break;
+                case 'createAllReceipt':
+                    $admin->isLogin();
+                    $members = $admin->getMemberIds();
+                    echo count($members);
+                    for($i=Input::getPerms(2);$i<Input::getPerms(3);$i++){
+                        $receipt->createRecepit($members[$i]['id']);
+                    }
+                    //foreach($members as $member){
+                        //$event = new SyncEvent("GetAppReport");
+                        //$event->fire();
+                     //   $receipt->createRecepit($member['id']);
+                    //}                    
+                    break;
+                case "login":
+                    $admin->getloginpage();
+                    break;
+                case "logout":
+                    $admin->logout();
+                    break;
+                case 'members':
+                    $admin->isLogin();
+                    $admin->getMembers();
+                    break;
+                case 'articles':
+                    $admin->isLogin();
+                    $admin->getArticles();
+                    break;
+                case 'pdftest':
+                    $admin->isLogin();
+                    $no='Excemple';$title='中文中文中文    統編：12334242';$amt=100;
+                    $prticipant="ccddee";$paper='123';$date='2021/10/11';
+                    $pdf = new pdfMaker();
+                    $pdf->createpdf($no,$title,$amt,$prticipant,$paper,$date);
+                    break;
+                default:
+                    Output::NotFound();
+                    break;
+            }
+        }
+        else if($method == 'POST'){
+            switch ($action) {
+                case 'login':
+                    $admin->login();
+                    break;
+                default:
+                    Output::NotFound();
+                    break;
+            }
         }
     }
 }

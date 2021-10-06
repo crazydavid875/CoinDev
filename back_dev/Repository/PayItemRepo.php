@@ -119,4 +119,23 @@ class PayItemRepo{
             return SQL::getResult();
         }
     }
+    public function findByArticle($aid){
+        $table = $this->table;
+        $isSuccess = SQL::Select("SELECT item.*,paymode.name as paymode,paymode.amt as amt,
+        ind.name as indent ,paymode.name as paymode
+        FROM $table as item JOIN paymode on paymode.id=item.pid
+        left JOIN indentify as ind on ind.id=paymode.indentid WHERE aid='$aid'");
+        if($isSuccess==-1){
+            Output::Error(SQL::getMsg());
+        }
+        else{
+            $result = SQL::getResult();
+            $payitems = [];
+            
+            foreach($result as $payitem){
+                array_push($payitems,new PayItem($payitem));
+            }
+            return $payitems;
+        }
+    }
 }
